@@ -1,0 +1,48 @@
+#fixedbar {
+  display: block;
+}
+
+#offcanvas {
+  display: none;
+}
+
+
+@media screen and (max-width: 736px) {
+  #fixedbar {
+    display: none;
+  }
+
+  #offcanvas {
+    display: block;
+  }
+}
+
+
+.infoContainer {
+  margin-left: 260px;
+  margin-top: 20px;
+  margin-right: 10px;
+  padding: 20px;
+  background-color: rgba(0, 0, 0, 0.05) !important;
+
+}
+
+.bgDim {
+  background-color: rgba(0, 0, 0, 0.5) !important;
+}
+
+@media screen and (max-width: 736px) {
+  .infoContainer {
+    margin: 20px 10px 10px 10px;
+  }
+}
+
+h4 {
+  font-size: 16px !important;
+  font-weight: bold !important;
+  margin-bottom: 0 !important;
+}
+
+hr {
+  margin: 0 !important;
+}

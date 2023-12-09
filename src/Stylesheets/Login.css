@@ -1,0 +1,206 @@
+#login {
+    display: flex;
+    /* gap: 20px; */
+
+}
+
+#login .loginContainer {
+    flex-basis: 48%;
+    max-width: 100%;
+    margin: 25px 0px;
+    padding: 25px 30px;
+    margin-bottom: 0px;
+}
+@media screen and (max-width: 700px) {
+    #login{
+        justify-content: center;
+        align-items: center;
+    }
+}
+#login .loginContainer>p {
+    margin: 20px 0px;
+    word-wrap: break-word;
+}
+
+#login .loginContainer p:first-of-type {
+    font-size: 20px;
+}
+
+.loginContainer .active {
+    display: block;
+}
+
+.loginContainer .disable {
+    display: none;
+}
+
+#login .loginImgContainer {
+  
+    display: block;
+
+    background-color: #EE721B;
+    flex-basis: 52%;
+    height: 100vh;
+    width: 100%;
+    position: relative;
+
+}
+.close {
+    display: none;
+}
+
+.loginImgContainer .iocns {
+    width: 100%;
+    height: 100%;
+}
+
+.loginImgContainer .logoStar {
+    width: 65%;
+    height: auto;
+    overflow: hidden;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    z-index: 999;
+    transform: translate(-50%, -50%);
+    /* animation: mymove 10s linear infinite; */
+}
+@media screen and (max-width:736px) {
+    #login .loginImgContainer{
+    display: none !important;
+}
+#login .loginContainer {
+    flex-basis: 100%;
+
+}
+
+}
+@keyframes mymove {
+    from {
+        transform: rotate(0deg);
+    }
+
+    to {
+        transform: rotate(360deg);
+    }
+
+}
+
+#form {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: flex-start;
+}
+
+.loginContainer .terms {
+    font-size: 12px !important;
+    margin-top: 10px !important;
+    text-wrap: wrap;
+}
+
+.loginContainer .terms a {
+    color: #EE721B;
+}
+
+.otpBtn {
+    background-color: #EE721B !important;
+    color: #000000 !important;
+    border: transparent !important;
+    height: 35px !important;
+    margin-top: 15px !important;
+}
+
+.inputOtp .countdown-text {
+    display: flex;
+    justify-content: flex-start;
+    align-items: self-start;
+    gap: 20px;
+    flex-wrap: wrap !important;
+    margin: 10px 0px;
+    /* height: 100px; */
+    margin-bottom: 0;
+}
+
+.countdown-text>p {
+    font-size: 14px !important;
+    font-weight: 400 !important;
+    color: #2d1d35;
+    margin-top: 2px !important;
+}
+
+.countdown-text>button {
+    background-color: #fff;
+    border: none;
+    font-weight: 500;
+    text-decoration: underline;
+    cursor: pointer;
+}
+
+.inputOtp>button {
+    background-color: #FFCB11 !important;
+    color: #000000 !important;
+    border: transparent !important;
+    height: 35px !important;
+}
+
+.inputOtp .otpBox {
+    width: 40px !important;
+    height: 40px !important;
+}
+
+.userInput {
+    height: 50px !important;
+}
+
+.errormsg {
+    color: red;
+    font-size: 14px !important;
+}
+
+.conditions {
+    background-color: #ECECEC;
+    height: 45vmin;
+    width: fit-content;
+    line-height: 30px;
+    padding: 20px;
+    overflow: auto;
+    border-radius: 6px;
+}
+
+.conditions>h4 {
+    margin: 20px 0;
+}
+
+.conditions>p {
+    font-size: 14px !important;
+    text-align: justify;
+    margin-top:10px;
+}
+
+.next {
+    background-color: #FFCB11 !important;
+    color: #000000 !important;
+    border: transparent !important;
+    height: 37px !important;
+    margin-left: 20px;
+}
+
+.loginContainer .btnContainer {
+    height: 30vh;
+    display: flex;
+    align-items: flex-end;
+}
+@media screen and (max-width:736px) {
+
+.conditions {
+ 
+    height: 40vh;
+
+   
+}
+.conditions>p {
+
+    margin-top:10px;
+}
+}

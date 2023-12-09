@@ -1,0 +1,127 @@
+#home .hero {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: relative;
+}
+
+.hero img {
+    width: 100vw;
+    min-height: 90vh;
+    object-fit: cover;
+    object-position: 100% 0%;
+}
+
+.hero .desc {
+    width: 50%;
+    position: absolute;
+    left: 5%;
+    top: 20%;
+    text-align: left !important;
+
+}
+
+.hero .desc h2 {
+    color: #ffff;
+    font-weight: bolder;
+    font-size: 5vmin;
+}
+
+.hero .desc h1 {
+    color: #FFCB11;
+    font-weight: bolder;
+    font-size: 15vmin;
+}
+
+.hero .desc p {
+    color: #ffff;
+    word-wrap: break-word;
+    font-weight: 300;
+}
+
+.desc .heroBtn{
+    min-width: 20vw;
+    border-radius: 10px;
+    background-color: #FFCB11;
+    border: transparent;
+    padding: 10px 10px;
+    margin: 20px 0px !important;
+}
+
+@media screen and (max-width: 850px) {
+    .hero .desc {
+        width: 70%;
+        margin-top: -50px;
+        display: flex;
+        flex-direction: column;
+        justify-content: end;
+    }
+}
+
+#home .features {
+    min-height: 330px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.features .featureContainer {
+    padding: 20px;
+    margin: 0 auto;
+    width: 90vw;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 50px;
+}
+
+.chat {
+    background-image: url("../assests/chat.png");
+    background-repeat: no-repeat;
+    background-size: cover;
+    width: 330px;
+    min-height: 180px;
+    border-radius: 10px;
+    padding: 20px;
+    box-shadow: 0 4px 4px 0 rgba(0, 0, 0, 0.2);
+    margin-bottom: 0 !important;
+}
+
+.call {
+    background-image: url("../assests/call.png");
+    background-repeat: no-repeat;
+    background-size: cover;
+    width: 330px;
+    min-height: 180px;
+    border-radius: 10px;
+    padding: 20px;
+    box-shadow: 0 4px 4px 0 rgba(0, 0, 0, 0.2);
+    margin-bottom: 0 !important;
+}
+
+.blog {
+    background-image: url("../assests/blog.png");
+    background-repeat: no-repeat;
+    background-size: cover;
+    width: 330px;
+    min-height: 180px;
+    border-radius: 10px;
+    padding: 20px;
+    box-shadow: 0 4px 4px 0 rgba(0, 0, 0, 0.2);
+    margin-bottom: 0 !important;
+}
+
+.chat h4,
+.call h4,
+.blog h4 {
+    font-size: 30px;
+    font-weight: bold;
+}
+
+
+.chat p,
+.call p,
+.blog p {
+    font-size: 20px;
+}

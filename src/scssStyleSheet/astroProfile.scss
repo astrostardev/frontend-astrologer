@@ -1,0 +1,83 @@
+.profile_container {
+    padding: 30px 30px;
+
+    .viewProfile-head {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+    }
+
+    .profile_detail {
+        div {
+            display: grid;
+            border-bottom: 1px solid rgba(182, 178, 178, 0.3);
+            grid-template-columns: 1fr 1fr;
+            gap: 40px;
+            align-items: center;
+             .img {
+                width: 150px;
+                height: 150px;
+                padding: 10px;
+                margin-bottom: 10px;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+
+                &:hover {
+                    cursor: pointer;
+                }
+
+                img {
+                    max-width: 100%;
+                }
+
+            }
+
+            h5 {
+                font-size: 1rem;
+                font-weight: 400;
+
+            }
+        }
+
+    }
+
+
+    .btnGroup {
+        margin: 20px 0;
+        border: none !important;
+        display: flex;
+        justify-content: flex-end;
+        position: relative;
+        right: 4rem;
+    }
+
+    .btns {
+        border: transparent;
+        background-color: skyblue;
+        font-size: 16px;
+        padding: 7px 20px;
+        border-radius: 5px;
+        margin-right: 10px;
+
+        &:hover {
+            color: white;
+            background-color: rgb(5, 35, 47)
+        }
+    }
+}
+
+.infoContainer {
+    margin-left: 260px;
+    margin-top: 20px;
+    margin-right: 10px;
+    padding: 20px;
+    background-color: rgba(0, 0, 0, 0.05) !important;
+
+}
+
+@media screen and (max-width: 736px) {
+    .infoContainer {
+      margin: 20px 10px 10px 10px;
+    }
+  }

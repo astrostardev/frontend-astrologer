@@ -1,0 +1,33 @@
+#top {
+    min-height: 330px;
+    padding: 50px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: #FFCB11;
+}
+
+.top-container {
+    margin: 0px auto;
+    width: 90vw;
+}
+
+
+.card-astro {
+    width: 80% !important;
+    margin-top: 20px;
+    margin: 0 auto;
+}
+
+
+.astro-desc{
+    color: rgba(0, 0, 0, 0.7);
+    text-align: center;
+    margin-top: 0px !important;
+}
+
+@media screen and (max-width: 450px) {
+    .card-custom {
+        max-width: 30% !important;
+    }
+}

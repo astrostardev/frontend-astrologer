@@ -1,0 +1,201 @@
+@import url('https://fonts.googleapis.com/css2?family=Fira+Sans:ital,wght@0,200;0,300;0,400;0,500;0,600;0,700;1,200;1,300;1,400;1,500;1,600;1,700&family=Open+Sans&display=swap');
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Open Sans', sans-serif;
+}
+
+
+/* sidebar */
+#side {
+    width: 250px;
+    height: 100%;
+    position: fixed;
+    top: 0;
+    left: 0;
+    z-index: 1;
+    background-color: #EE721B;
+    text-align: justify;
+}
+
+#side>.logoContainer {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    /* margin-top: 10px; */
+    margin-left: -25px;
+    padding: 15px 20px;
+}
+
+#side>.divider {
+    height: 1px;
+    background-color: white;
+}
+
+#side>.side-menu {
+    height: 75%;
+}
+
+#side>.side-menu>.side-link {
+    padding: 10px 20px;
+    margin: 30px;
+    display: flex;
+    gap: 20px;
+    align-items: center;
+    text-decoration: none;
+    color: inherit;
+    transition: all 50ms ease-in 5ms;
+    background-color: transparent;
+    border: none;
+    outline: none;
+    cursor: pointer;
+}
+
+#side>.side-menu>.historydrop-container>.history-link {
+    padding: 10px 20px;
+    margin: 20px;
+    display: flex;
+    gap: 20px;
+    align-items: center;
+    text-decoration: none;
+    color: inherit;
+    transition: all 50ms ease-in 5ms;
+    background-color: transparent;
+    border: none;
+    outline: none;
+    cursor: pointer;
+}
+
+#side>.side-menu>.side-link:hover,
+#side>.side-menu>.historydrop-container>.history-link:hover {
+    background-color: #ffff;
+    border-radius: 5px;
+}
+
+#side>.side-menu>.active-drop {
+    background-color: #ffff;
+
+}
+
+#side>.side-menu>.historydrop-container {
+    display: none;
+    background-color: rgba(238, 114, 27, 0.2);
+    margin-left: 50px;
+    margin-top: -20px;
+    margin-bottom: -20px;
+    transition: all 50ms ease-in 5ms;
+}
+
+#side>.side-menu>.open-history {
+    display: block;
+    transition: all 50ms ease-in 5ms;
+}
+
+
+
+/* header */
+#head {
+    margin-left: 260px;
+    box-shadow: 10px 8px 10px 1px rgba(0, 0, 0, 0.2);
+    padding: 10px 20px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+#head>article {
+    display: flex;
+    gap: 5px;
+    align-items: center;
+}
+
+#head .welcome {
+    width: 25px;
+    height: 25px;
+    animation: mymove infinite 3s linear;
+}
+
+@keyframes mymove {
+    from {
+        transform: rotate(0deg);
+    }
+
+    to {
+        transform: rotate(360deg);
+    }
+
+}
+
+#head>div {
+    display: flex;
+    gap: 20px;
+    align-items: center;
+}
+
+#head>div>.earning {
+    display: flex;
+    gap: 10px;
+}
+
+#head>div>.profileDrop {
+    float: left;
+    overflow: hidden;
+}
+
+
+#head>div>.profileDrop>.dropbtn {
+    border: none;
+    outline: none;
+    color: black;
+    /* padding-right: 16px; */
+    background-color: inherit;
+    font-family: inherit;
+    margin: 0;
+    display: flex;
+    align-items: center;
+    /* Important for vertical align on mobile phones */
+}
+
+
+
+#head>div>.profileDrop>.dropbtn>.astrologer {
+    width: 40px;
+    height: 40px;
+    object-fit: cover;
+    border-radius: 50%;
+}
+
+
+#head div .profileDrop .drop-content {
+    display: none;
+    position: absolute;
+    right: 4vmin;
+    background-color: #fffefe;
+    min-width: 160px;
+    box-shadow: 0px 8px 16px 0px rgba(0, 0, 0, 0.2);
+    border-radius: 5px;
+    z-index: 1;
+    transition: all 3s;
+}
+
+#head div .drop-content .drop-link {
+    float: none;
+    color: black;
+    padding: 12px;
+    text-decoration: none;
+    display: block;
+    text-align: left;
+    transition: all 50ms ease-in 5ms;
+}
+
+#head div .drop-content .drop-link:hover {
+    background-color: #EE721B;
+    border-radius: 5px;
+    color: white;
+}
+
+#head div .profileDrop .toggle-content {
+    display: block !important;
+}

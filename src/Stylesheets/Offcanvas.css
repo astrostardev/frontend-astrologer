@@ -1,0 +1,190 @@
+@import url('https://fonts.googleapis.com/css2?family=Fira+Sans:ital,wght@0,200;0,300;0,400;0,500;0,600;0,700;1,200;1,300;1,400;1,500;1,600;1,700&family=Open+Sans&display=swap');
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Open Sans', sans-serif;
+}
+
+#navhead>._nav {
+    box-shadow: 10px 8px 10px 1px rgba(0, 0, 0, 0.2);
+    padding: 10px 20px;
+    display: flex;
+    justify-content: space-between;
+}
+
+#navhead>._nav>div {
+    display: flex;
+    gap: 20px;
+    align-items: center;
+}
+
+._nav .earning {
+    display: flex;
+    gap: 10px;
+}
+
+@media screen and (max-width: 500px) {
+    ._nav .earning {
+        display: none;
+    }
+}
+
+.profileDrop {
+    float: left;
+    overflow: hidden;
+}
+
+
+.profileDrop>.dropbtn {
+    border: none;
+    outline: none;
+    color: black;
+    padding-right: 16px;
+    background-color: inherit;
+    font-family: inherit;
+    margin: 0;
+    display: flex;
+    align-items: center;
+    /* Important for vertical align on mobile phones */
+}
+
+@media screen and (max-width: 500px) {
+    .profileDrop>.dropbtn {
+        padding-right: 0px;
+    }
+}
+
+.profileDrop>.dropbtn>.astrologer {
+    width: 40px;
+    height: 40px;
+    object-fit: cover;
+    border-radius: 50%;
+}
+
+
+.profileDrop>.drop {
+    display: none;
+    position: absolute;
+    right: 4vmin;
+    background-color: #fffefe;
+    min-width: 160px;
+    box-shadow: 0px 8px 10px 0px rgba(0, 0, 0, 0.2);
+    border-radius: 5px;
+    z-index: 1;
+    transition: all 3s;
+}
+
+.drop a {
+    float: none;
+    color: black;
+    padding: 10px 12px;
+    text-decoration: none;
+    display: block;
+    text-align: left;
+    transition: all 50ms ease-in 5ms;
+}
+
+.drop a:hover {
+    background-color: #EE721B;
+    border-radius: 5px;
+    color: white;
+}
+
+.profileDrop>.show-content {
+    display: block;
+}
+
+
+/* canvas */
+.canvas {
+    display: none;
+    width: 250px;
+    height: 100%;
+    position: fixed;
+    top: 0;
+    left: 0;
+    z-index: 999;
+    background-color: #EE721B;
+    overflow-x: hidden;
+    text-align: justify;
+    transition: 0.5s;
+}
+
+.openCanvas {
+    display: block;
+    /* transition: all 50ms ease-in 5ms; */
+}
+
+.canvas>.logoContainer {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    /* margin-top: 10px; */
+    /* margin-left: -25px; */
+    padding: 15px 20px;
+}
+
+.canvas>.divider {
+    height: 1px;
+    background-color: white;
+}
+
+.canvas>.side-menu {
+    height: 75%;
+}
+
+.canvas>.side-menu>.side-link {
+    padding: 10px 20px;
+    margin: 30px;
+    display: flex;
+    gap: 20px;
+    align-items: center;
+    text-decoration: none;
+    color: inherit;
+    transition: all 50ms ease-in 5ms;
+    background-color: transparent;
+    border: none;
+    outline: none;
+    cursor: pointer;
+}
+
+.canvas>.side-menu>.side-link:hover,
+.canvas>.side-menu>.history-container>.hist-link:hover {
+    background-color: #ffff;
+    border-radius: 5px;
+}
+
+.canvas .side-menu .history-container .hist-link {
+    padding: 10px 20px;
+    margin: 20px;
+    display: flex;
+    gap: 20px;
+    align-items: center;
+    text-decoration: none;
+    color: inherit;
+    transition: all 50ms ease-in 5ms;
+    background-color: transparent;
+    border: none;
+    outline: none;
+    cursor: pointer;
+}
+
+.canvas>.side-menu>.active-drop {
+    background-color: #ffff;
+}
+
+.canvas .side-menu .history-container {
+    display: none;
+    background-color: rgba(238, 114, 27, 0.2);
+    margin-left: 50px;
+    margin-top: -20px;
+    margin-bottom: -20px;
+    transition: all 50ms ease-in 5ms;
+}
+
+.canvas .side-menu .open-hist {
+    display: block;
+    transition: all 50ms ease-in 5ms;
+}

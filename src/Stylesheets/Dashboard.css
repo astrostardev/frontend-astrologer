@@ -1,0 +1,149 @@
+#dashboard {
+    margin: 30px 0px;
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    gap: 5%;
+}
+
+@media screen and (max-width: 1024px) {
+    #dashboard {
+        display: block;
+    }
+
+    #dashboard>.dashBox {
+        margin-bottom: 20px;
+    }
+}
+
+#dashboard>.dashBox {
+    background-color: #fff;
+    border-radius: 10px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 20px;
+    padding: 20px;
+}
+
+
+.dashBox>.dashImg {
+    border-radius: 50%;
+    padding: 10px;
+}
+
+.dashChat>.dashImg {
+    background-color: #c5ceff;
+}
+
+.dashEarning>.dashImg {
+    background-color: #d4ffe8;
+}
+
+.dashCall>.dashImg {
+    background-color: #ead4ff;
+}
+
+
+.dashImg>img {
+    /* max-width: 100%; */
+    width: 80px;
+    height: auto;
+    object-fit: contain;
+}
+
+.dashBox>.boxDescription>.boxHeading {
+    color: rgba(0, 0, 0, 0.5);
+    font-size: 14px;
+    margin: 0;
+}
+
+.dashBox>.boxDescription>h3 {
+    font-size: 20px;
+    font-weight: 700;
+    margin-bottom: 5px;
+}
+
+
+.dashBox>.boxDescription>.boxInfo {
+    font-size: 12px;
+    margin: 0;
+}
+
+.dashBox>.boxDescription>.boxInfo span {
+    color: green;
+    font-weight: bold;
+}
+
+.dashBox>.boxDescription>.boxInfo.reduce span {
+    color: red;
+    font-weight: bold;
+}
+
+
+
+/* charts */
+.chartContainer {
+    display: flex;
+    /* flex-direction: column; */
+    gap: 5%;
+    flex-wrap: wrap;
+}
+
+@media screen and (max-width: 500px) {
+    .barChart {
+        padding: 10px !important;
+    }
+}
+
+.barChart {
+    margin: 30px 0;
+    background-color: #fff;
+    padding: 20px 20px;
+    border-radius: 10px;
+    flex-basis: 65%;
+    width: 100%;
+    min-height: 300px;
+    padding: 20px;
+}
+
+.barChart .barHead {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.barHead .boxHeading {
+    color: rgba(0, 0, 0, 0.5);
+    font-size: 12px;
+    margin: 0;
+
+}
+
+
+
+.chartContainer>.dashSettings {
+    margin: 30px 0;
+    padding: 20px;
+    background-color: #fff;
+    border-radius: 10px;
+    flex-basis: 30%;
+    /* width: 100%; */
+}
+
+.chartContainer>.dashSettings>div {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 20px;
+}
+
+.chartContainer>.dashSettings>div>p {
+    margin-bottom: 0;
+}
+
+@media screen and (max-width: 1150px) {
+    .chartContainer {
+        flex-direction: column;
+    }
+}

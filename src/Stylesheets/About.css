@@ -1,0 +1,151 @@
+@import url('https://fonts.googleapis.com/css2?family=Fira+Sans:ital,wght@0,200;0,300;0,400;0,500;0,600;0,700;1,200;1,300;1,400;1,500;1,600;1,700&family=Istok+Web&family=Open+Sans&display=swap');
+
+
+/* About us */
+#about .aboutUs {
+    width: 90vw;
+    min-height: 500px;
+    margin: 0 auto;
+    display: grid;
+    grid-template-columns: 1fr 0.9fr;
+    grid-template-rows: 80px 0.5fr;
+    gap: 5px 100px;
+    place-content: center;
+    place-items: center;
+}
+
+.aboutUs .imgContainer {
+    grid-row: 1/ 3;
+    grid-column: 2 / 3;
+    width: 100%;
+    object-fit: center;
+    border-radius: 10px;
+}
+
+/* .aboutUs img {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+} */
+
+.aboutUs h2 {
+    margin-top: 30px;
+    place-self: start;
+}
+
+.aboutUs p {
+    font-family: 'Istok Web', sans-serif;
+    line-height: 25px;
+    text-align: justify;
+    place-self: start;
+}
+
+
+@media screen and (max-width: 950px) {
+    #about .aboutUs {
+        display: block;
+    }
+
+    .aboutUs .imgContainer {
+        width: 100%;
+        object-fit: cover;
+        margin-bottom: 20px;
+    }
+}
+
+/* Vision and mission */
+#about .vision {
+    background-color: #ECECEC;
+    min-height: 330px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+#about .vision div {
+    padding: 20px;
+    margin: 0 auto;
+    width: 90vw;
+}
+
+#about .vision div h2 {
+    text-align: center;
+    margin-bottom: 30px;
+}
+
+#about .vision p {
+    text-align: justify;
+    line-height: 25px;
+}
+
+/* Astrologers */
+
+
+
+
+
+
+
+/* Benefits */
+.benefits {
+    background-color: #ECECEC;
+    min-height: 600px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.benefits .main {
+    width: 90vw;
+    margin: 30px auto;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 50px;
+}
+
+.benefitsContainer {
+    background-color: white;
+    border-radius: 10px;
+    padding: 20px;
+}
+
+.benefits-user {
+    background-color: #FFCB11;
+    border-radius: 5px;
+    padding: 7px 10px;
+    border: transparent;
+    width: fit-content;
+    height: fit-content;
+    place-self: right end;
+}
+
+.description {
+    display: grid;
+    grid-template-columns: auto 1fr;
+    grid-template-rows: auto auto;
+    gap: 5px 30px;
+    padding: 10px 0px;
+}
+
+.description img {
+    grid-row: 1/ 3;
+    grid-column: 1 / 2;
+}
+
+.benefitsContainer p {
+    font-size: 14px;
+    line-height: 25px;
+    text-align: justify;
+    padding: 10px 0;
+}
+
+@media screen and (max-width: 950px) {
+    .benefits .main {
+        display: block;
+    }
+
+    .benefitsContainer {
+        margin-bottom: 20px;
+    }
+}

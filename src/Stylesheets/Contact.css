@@ -1,0 +1,56 @@
+#contact {
+    min-height: 600px;
+    width: 90vw;
+    margin: 30px auto;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 50px;
+}
+
+#contact>.contactUS {
+    flex-basis: 50%;
+}
+
+
+#contact>.contactForm {
+    flex-basis: 50%;
+}
+
+.contactForm>form {
+    display: initial !important;
+}
+
+.contactUS>p {
+    text-align: justify;
+}
+
+.contactBtn {
+    background-color: #FFCB11;
+    border-radius: 5px;
+    padding: 10px 20px;
+    border: transparent;
+}
+
+@media screen and (max-width: 750px) {
+    #contact {
+        display: block;
+    }
+}
+
+.errormsg {
+    color: red;
+}
+
+.autoHide {
+    animation: hideAnimation 0s ease-in 5s;
+    animation-fill-mode: forwards;
+}
+
+@keyframes hideAnimation {
+    to {
+        visibility: hidden;
+        width: 0;
+        height: 0;
+    }
+}
