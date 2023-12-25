@@ -13,7 +13,7 @@ export const login = (mobileNo) => async (dispatch) => {
 
     try {
         dispatch(loginRequest())
-        const response= await axios.get(`https://localhost:8000/api/v1/astrologer/phoneNo?mobilePrimary=${mobileNo}`);
+        const response= await axios.get(`http://65.1.100.86:8000/api/v1/astrologer/phoneNo?mobilePrimary=${mobileNo}`);
      
         dispatch(loginSuccess(response.data))
         return response.data
@@ -33,7 +33,7 @@ export const clearAuthError = dispatch => {
 export const logout =  async (dispatch) => {
 
     try {
-        const {data} = await axios.get(`https://shy-gold-sawfish-robe.cyclic.app/api/v1/admin/logout`)
+        const {data} = await axios.get(`http://65.1.100.86:8000/api/v1/admin/logout`)
         dispatch(logoutSuccess(data))
     } catch (error) {
         dispatch(logoutFail())
