@@ -40,6 +40,15 @@ function Sidebar() {
     useEffect(() => {
         document.addEventListener("click", handleDroptwo, true)
     }, [])
+     function fetchData() {
+        let response = fetch("http://65.1.100.86:8000/api/v1/astrologer/logoutAstrologer", {
+            method: "GET",
+        });
+      
+        console.log(response)
+       
+      
+    }
     return (
         <>
             <aside id="side">
@@ -110,7 +119,7 @@ function Sidebar() {
                             <div className="drop-content" ref={dropTwo}>
                                 <Link to="/astroProfile" className="drop-link" onClick={closedropdown}>Your Profile</Link>
                                 <hr />
-                                <Link to="#" className="drop-link" onClick={closedropdown}>Logout</Link>
+                                <Link to="/" className="drop-link" onClick={()=>{fetchData(); closedropdown()}}>Logout</Link>
                             </div>
                         </div>
                     </div>
