@@ -16,7 +16,7 @@
     top: 0;
     left: 0;
     z-index: 1;
-    background-color: #EE721B;
+    background:   #FFCB11;
     text-align: justify;
 }
 
@@ -191,7 +191,7 @@
 }
 
 #head div .drop-content .drop-link:hover {
-    background-color: #EE721B;
+    background-color:  #FFCB11;
     border-radius: 5px;
     color: white;
 }

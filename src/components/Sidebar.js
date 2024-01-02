@@ -98,8 +98,8 @@ function Sidebar() {
             <main>
                 <header id="head">
                     <article>
-                        <h4>Hello <span style={{ color: "#EE721B" }}>Raghavendraswamyar</span></h4>
-                        <img src={welcome} alt="welcome" className="welcome" />
+                        <h4>Hello <span style={{ color: "#FFCB11" }}>Raghavendraswamyar</span></h4>
+                        {/* <img src={welcome} alt="welcome" className="welcome" /> */}
                     </article>
                     <div>
                         {/* Earning */}

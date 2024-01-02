@@ -14,8 +14,9 @@ import AstrologerLogin from './pages/Login';
 import Home from './pages/Home'
 import Layout from './Layout'
 import ViewAstroProfile from './pages/ViewAstroProfile';
+import { useSelector } from 'react-redux';
 function App(props) {
-
+// const {isAuthenticated}=useSelector(state=>state.authState)
   return (
     <div>
       <BrowserRouter>
@@ -26,11 +27,11 @@ function App(props) {
 
             <Route path="/" element={<AstrologerLogin />} />
             <Route path='/dashboard' element={<Dashboard />} />
-            <Route path='/earnings' element={<Earnings />} />
-            <Route path="/settings" element={<Settings />} />
-            <Route path="/chathistory" element={<Chathistory />} />
-            <Route path='/callhistory' element={<Callhistory />} />
-            <Route path="/astroProfile" element={<ViewAstroProfile />} />
+            <Route path='/earnings' element={ <Earnings />} />
+            <Route path="/settings" element={ <Settings />} />
+            <Route path="/chathistory" element={ <Chathistory />} />
+            <Route path='/callhistory' element={ <Callhistory />} />
+            <Route path="/astroProfile" element={ <ViewAstroProfile />} />
           </Routes>
         </div>
 

@@ -4,7 +4,8 @@ const astroSlice = createSlice({
     name: 'astro',
     initialState: {
         loading: false,
-        isAuthenticated: false
+        isAuthenticated: false,
+        token:null
     },
     reducers: {
         loginRequest(state, action) {
@@ -18,7 +19,7 @@ const astroSlice = createSlice({
                 loading: false,
                 isAuthenticated: true,
                 astrologer: action.payload.astrologer,
-                // token:action.payload.token
+                token: action.payload.token
             }
         },
         loginFail(state, action) {

@@ -87,7 +87,7 @@
 }
 
 .drop a:hover {
-    background-color: #EE721B;
+    background-color: #FFCB11;
     border-radius: 5px;
     color: white;
 }
@@ -106,7 +106,7 @@
     top: 0;
     left: 0;
     z-index: 999;
-    background-color: #EE721B;
+    background-color: #FFCB11;
     overflow-x: hidden;
     text-align: justify;
     transition: 0.5s;
