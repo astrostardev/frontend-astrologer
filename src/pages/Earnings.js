@@ -23,7 +23,7 @@ function Earnings() {
                 style={{
                   height: "3px",
                   width: "75px",
-                  backgroundColor: "#EE721B",
+                  backgroundColor: "#FFCB11",
                   borderRadius: "10px",
                   marginTop: "3px",
                 }}

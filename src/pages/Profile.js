@@ -32,7 +32,7 @@ function Profile() {
           style={{
             height: "3px",
             width: "50px",
-            backgroundColor: "#EE721B",
+            backgroundColor: "#FFCB11",
             borderRadius: "10px",
             marginTop: "3px",
           }}

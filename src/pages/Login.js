@@ -1,6 +1,6 @@
 import loginStar from "../assests/astrostar.png";
 import "../Stylesheets/Login.css";
-import logo from "../assests/mainLogo.png";
+import logo from "../assests/aq.png";
 import icons from "../assests/icons.png";
 import PhoneInput from "react-phone-input-2";
 import "react-phone-input-2/lib/style.css";
@@ -143,8 +143,7 @@ const submitHandler = async () => {
   };
 
  useEffect(()=>{
-  const timeoutId = setTimeout(checkAstrologer, 1000);
-
+   const timeoutId = setTimeout(checkAstrologer, 1000);
     // Clear the timeout on component unmount or when dependencies change
     return () => clearTimeout(timeoutId);
 

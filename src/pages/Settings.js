@@ -10,13 +10,13 @@ function Settings() {
 
     const CustomSwitch = styled(Switch)(({ theme }) => ({
         '& .MuiSwitch-switchBase.Mui-checked': {
-            color: "#EE721B",
+            color: "#FFCB11",
             '&:hover': {
-                backgroundColor: alpha("#EE721B", theme.palette.action.hoverOpacity),
+                backgroundColor: alpha("#FFCB11", theme.palette.action.hoverOpacity),
             },
         },
         '& .MuiSwitch-switchBase.Mui-checked + .MuiSwitch-track': {
-            backgroundColor: "#EE721B",
+            backgroundColor: "#FFCB11",
         },
     }));
 
@@ -32,7 +32,7 @@ function Settings() {
 
       <div className="infoContainer">
             <h4>Settings</h4>
-            <div style={{ height: "3px", width: "40px", backgroundColor: "#EE721B", borderRadius: "10px", marginTop: "3px" }}></div>
+            <div style={{ height: "3px", width: "40px", backgroundColor: "#FFCB11", borderRadius: "10px", marginTop: "3px" }}></div>
             <main id="settings">
                 <div>
                     <span></span>

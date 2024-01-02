@@ -38,7 +38,7 @@ function ViewAstroProfile() {
                                 style={{
                                     height: "3px",
                                     width: "40px",
-                                    backgroundColor: "#0042ae",
+                                    backgroundColor: "#FFCB11",
                                     borderRadius: "10px",
                                     marginTop: "3px",
                                 }}
