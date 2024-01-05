@@ -1,6 +1,6 @@
 import loginStar from "../assests/a2.jpg";
 import "../Stylesheets/Login.css";
-import logo from "../assests/logo yellow.png";
+import logo from "../assests/qq.jpg";
 import icons from "../assests/icons.png";
 import PhoneInput from "react-phone-input-2";
 import "react-phone-input-2/lib/style.css";

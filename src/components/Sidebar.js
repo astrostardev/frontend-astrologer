@@ -1,5 +1,5 @@
 import "../Stylesheets/Sidebar.css"
-import Logo from "../assests/logo yellow.png"
+import Logo from "../assests/qq.jpg"
 import { LuLayoutDashboard } from "react-icons/lu"
 import { BsCash, BsChatLeftText } from "react-icons/bs"
 import { RiHistoryFill } from "react-icons/ri"
