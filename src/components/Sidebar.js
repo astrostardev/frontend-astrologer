@@ -1,5 +1,5 @@
 import "../Stylesheets/Sidebar.css"
-import Logo from "../assests/Logo1.png"
+import Logo from "../assests/logo yellow.png"
 import { LuLayoutDashboard } from "react-icons/lu"
 import { BsCash, BsChatLeftText } from "react-icons/bs"
 import { RiHistoryFill } from "react-icons/ri"
@@ -52,7 +52,7 @@ function Sidebar() {
     return (
         <>
             <aside id="side">
-                <div className="logoContainer">
+                <div className="logoContainer" style={{backgroundColor:"#fff"}}>
                     <img src={Logo} alt="logo" />
                 </div>
                 <div className="divider"></div>

@@ -1,6 +1,6 @@
-import loginStar from "../assests/astrostar.png";
+import loginStar from "../assests/a2.jpg";
 import "../Stylesheets/Login.css";
-import logo from "../assests/aq.png";
+import logo from "../assests/logo yellow.png";
 import icons from "../assests/icons.png";
 import PhoneInput from "react-phone-input-2";
 import "react-phone-input-2/lib/style.css";
@@ -220,7 +220,7 @@ const submitHandler = async () => {
       <div className="loginContainer">
         <img src={logo} alt="navLogo" />
         <p>
-        Welcome Astrologer login here to spread you positivity and solve problems
+        Contribute to Society with your service
         </p>
         <div className={showTab === 1 ? "active" : "disable"}>
           <Form className="mt-4" id="form">
@@ -384,7 +384,7 @@ const submitHandler = async () => {
       </div>
 
       <div id="logoImg" className="loginImgContainer">
-        <img src={icons} alt="icons" className="iocns" />
+        {/* <img src={icons} alt="icons" className="iocns" /> */}
         <img src={loginStar} alt="star" className="logoStar" />
       </div>
     </div>

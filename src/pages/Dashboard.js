@@ -28,7 +28,7 @@ function Dashboard() {
         data: earnings.map((earn) => earn.amount),
         backgroundColor: [
           "#0000000d",
-          "#EE721B",
+          "#FFCB11",
           "#0000000d",
           "#0000000d",
           "#0000000d",
@@ -42,7 +42,7 @@ function Dashboard() {
         ],
         borderColor: [
           "#0000000d",
-          "#EE721B",
+          "#FFCB11",
           "#0000000d",
           "#0000000d",
           "#0000000d",
@@ -85,13 +85,13 @@ function Dashboard() {
 
   const CustomSwitch = styled(Switch)(({ theme }) => ({
     "& .MuiSwitch-switchBase.Mui-checked": {
-      color: "#EE721B",
+      color: "#FFCB11",
       "&:hover": {
-        backgroundColor: alpha("#EE721B", theme.palette.action.hoverOpacity),
+        backgroundColor: alpha("#FFCB11", theme.palette.action.hoverOpacity),
       },
     },
     "& .MuiSwitch-switchBase.Mui-checked + .MuiSwitch-track": {
-      backgroundColor: "#EE721B",
+      backgroundColor: "#FFCB11",
     },
   }));
 
