@@ -1,25 +1,25 @@
 {
   "files": {
-    "main.css": "/static/css/main.1c6614a4.css",
-    "main.js": "/static/js/main.1e98e1a7.js",
+    "main.css": "/static/css/main.d5ad229b.css",
+    "main.js": "/static/js/main.22de4263.js",
     "static/js/787.4b9a6eb5.chunk.js": "/static/js/787.4b9a6eb5.chunk.js",
     "static/media/About.jpg": "/static/media/About.2e36871809f081ea16a0.jpg",
     "static/media/astrologer.jpg": "/static/media/astrologer.fb3e557166462fe193a4.jpg",
     "static/media/Slideshow.png": "/static/media/Slideshow.0fe239ef593b8a01b47c.png",
     "static/media/icons.png": "/static/media/icons.aaa951992440810539c0.png",
+    "static/media/a2.jpg": "/static/media/a2.cfe79fe696a774530633.jpg",
     "static/media/chat.png": "/static/media/chat.0433f4e7d98c01f30fff.png",
     "static/media/call.png": "/static/media/call.a7ecc3aff77ca49d5063.png",
     "static/media/blog.png": "/static/media/blog.50582fb33455f57c0d85.png",
     "static/media/benefits-user.png": "/static/media/benefits-user.d58437468d0bc0ec7983.png",
-    "static/media/astrostar.png": "/static/media/astrostar.a2032649237b5c40431a.png",
     "static/media/benefits-astro.png": "/static/media/benefits-astro.341bf88d2ba8e7ed517e.png",
     "index.html": "/index.html",
-    "main.1c6614a4.css.map": "/static/css/main.1c6614a4.css.map",
-    "main.1e98e1a7.js.map": "/static/js/main.1e98e1a7.js.map",
+    "main.d5ad229b.css.map": "/static/css/main.d5ad229b.css.map",
+    "main.22de4263.js.map": "/static/js/main.22de4263.js.map",
     "787.4b9a6eb5.chunk.js.map": "/static/js/787.4b9a6eb5.chunk.js.map"
   },
   "entrypoints": [
-    "static/css/main.1c6614a4.css",
-    "static/js/main.1e98e1a7.js"
+    "static/css/main.d5ad229b.css",
+    "static/js/main.22de4263.js"
   ]
 }
