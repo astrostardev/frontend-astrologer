@@ -12,7 +12,8 @@ import { IoMdNotificationsOutline } from "react-icons/io"
 import { RiArrowDropDownLine } from "react-icons/ri"
 import astrologer from "../assests/astrologer.jpg"
 import welcome from "../assests/welcome.png"
-import { useRef, useEffect } from "react"
+import { useRef, useEffect } from "react";
+
 function Sidebar() {
 
     function toggledropdown() {

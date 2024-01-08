@@ -55,14 +55,15 @@
 }
 
 .loginImgContainer .logoStar {
-    width: 65%;
+    width:100%;
+    /* width: 65%;
     height: auto;
     overflow: hidden;
     position: absolute;
     top: 50%;
     left: 50%;
     z-index: 999;
-    transform: translate(-50%, -50%);
+    transform: translate(-50%, -50%); */
     /* animation: mymove 10s linear infinite; */
 }
 @media screen and (max-width:736px) {

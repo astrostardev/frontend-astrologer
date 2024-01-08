@@ -15,10 +15,13 @@ import Home from './pages/Home'
 import Layout from './Layout'
 import ViewAstroProfile from './pages/ViewAstroProfile';
 import { useSelector } from 'react-redux';
+import { HelmetProvider } from 'react-helmet-async'
+
 function App(props) {
 // const {isAuthenticated}=useSelector(state=>state.authState)
   return (
     <div>
+    <HelmetProvider>
       <BrowserRouter>
    
         <div>
@@ -36,6 +39,7 @@ function App(props) {
         </div>
 
       </BrowserRouter>
+      </HelmetProvider>
     </div>
   );
 }

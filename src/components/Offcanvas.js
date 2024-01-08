@@ -3,7 +3,7 @@ import { HiMenuAlt1 } from "react-icons/hi"
 import { PiWalletBold } from "react-icons/pi"
 import { IoMdNotificationsOutline } from "react-icons/io"
 import { RiArrowDropDownLine } from "react-icons/ri"
-import Logo from "../assests/Logo1.png"
+import Logo from "../assests/qq.jpg"
 import astrologer from "../assests/astrologer.jpg"
 import { LuLayoutDashboard } from "react-icons/lu"
 import { BsCash, BsChatLeftText } from "react-icons/bs"
@@ -67,7 +67,7 @@ function Offcanvas() {
     return (
         <>
             <aside className="canvas" ref={refCanvas}>
-                <div className="logoContainer">
+                <div className="logoContainer" style={{backgroundColor:"#fff"}}>
                     <img src={Logo} alt="logo" />
                     <div><RiCloseLine style={{ fontSize: "25px" }} onClick={closeCanvas} /></div>
                 </div>
