@@ -5,7 +5,7 @@ import Button from "react-bootstrap/Button";
 import { useState } from "react";
 import Sidebar from "../components/Sidebar";
 import Offcanvas from "../components/Offcanvas";
-
+import MetaData from "./MetaData";
 
 function Profile() {
   const [disable, setDisabled] = useState(true);
@@ -20,6 +20,8 @@ function Profile() {
   }
   return (
     <>
+        <MetaData title={'Astro5Star-Contributor'} />
+
       <div id="fixedbar">
         <Sidebar />
       </div>

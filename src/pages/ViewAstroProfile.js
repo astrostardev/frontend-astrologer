@@ -7,6 +7,7 @@ import dayjs from 'dayjs';
 import Sidebar from "../components/Sidebar";
 import Offcanvas from "../components/Offcanvas";
 import { useSelector } from "react-redux";
+import MetaData from "./MetaData";
 // import moment from "moment"
 
 function ViewAstroProfile() {
@@ -18,6 +19,8 @@ function ViewAstroProfile() {
 
     return (
         <>
+        <MetaData title={'Astro5Star-Contributor'} />
+
               <div id="fixedbar">
         <Sidebar />
       </div>

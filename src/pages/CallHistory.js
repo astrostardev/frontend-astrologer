@@ -3,10 +3,12 @@ import Table from "react-bootstrap/Table";
 import { callHistory } from "../data";
 import Sidebar from "../components/Sidebar";
 import Offcanvas from "../components/Offcanvas";
-
+import MetaData from "./MetaData";
 function Callhistory() {
   return (
     <>
+        <MetaData title={'Astro5Star-Contributor'} />
+
       <div id="fixedbar">
         <Sidebar />
       </div>

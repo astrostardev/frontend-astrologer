@@ -3,7 +3,7 @@ import call from "../assests/call1.png";
 import earning from "../assests/earning.png";
 import { BsArrowUpShort, BsArrowDownShort } from "react-icons/bs";
 import "../Stylesheets/Dashboard.css";
-
+import MetaData from "./MetaData";
 import {
   Chart as ChartJS,
   Tooltip,
@@ -98,6 +98,8 @@ function Dashboard() {
   const label = { inputProps: { "aria-label": "Color switch demo" } };
   return (
     <>
+        <MetaData title={'Astro5Star-Contributor'} />
+
       <div id="fixedbar">
         <Sidebar />
       </div>

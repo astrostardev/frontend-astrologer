@@ -3,11 +3,13 @@ import Table from "react-bootstrap/Table";
 import { chatHistory } from "../data";
 import Sidebar from "../components/Sidebar";
 import Offcanvas from "../components/Offcanvas";
-
+import MetaData from "./MetaData";
 
 function Chathistory() {
   return (
     <>
+        <MetaData title={'Astro5Star-Contributor'} />
+
       <div id="fixedbar">
         <Sidebar />
       </div>

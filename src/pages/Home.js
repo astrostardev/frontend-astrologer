@@ -1,10 +1,12 @@
 import "../Stylesheets/Home.css"
 import slideshow1 from "../assests/Slideshow.png"
 import Services from "../components/Services";
-
+import MetaData from "./MetaData";
 function Home() {
     return (
         <>
+        <MetaData title={'Astro5Star-Contributor'} />
+
             <main id="home">
                 {/* <section className="hero">
                 <img src={slideshow1} alt="astrologer" />

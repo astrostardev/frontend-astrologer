@@ -6,6 +6,7 @@ import PhoneInput from "react-phone-input-2";
 import "react-phone-input-2/lib/style.css";
 import { login } from "../actions/astrologerAction";
 import { useEffect, useState } from "react";
+import MetaData from '../pages/MetaData'
 import {
   Form,
   Button,
@@ -217,6 +218,8 @@ const submitHandler = async () => {
   };
   return (
     <div id="login">
+        <MetaData title={'Astro5Star-Contributor'} />
+
       <div className="loginContainer">
         <img src={logo} alt="navLogo" />
         <p>

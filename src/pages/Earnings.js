@@ -3,11 +3,13 @@ import { earnings } from "../data";
 import Table from "react-bootstrap/Table";
 import Sidebar from "../components/Sidebar";
 import Offcanvas from "../components/Offcanvas";
-
+import MetaData from "./MetaData";
 
 function Earnings() {
   return (
     <>
+        <MetaData title={'Astro5Star-Contributor'} />
+
       <div id="fixedbar">
         <Sidebar />
       </div>

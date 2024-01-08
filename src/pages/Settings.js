@@ -3,7 +3,7 @@ import { alpha, styled } from '@mui/material/styles';
 import Switch from '@mui/material/Switch';
 import Sidebar from "../components/Sidebar";
 import Offcanvas from "../components/Offcanvas";
-
+import MetaData from "./MetaData";
 
 function Settings() {
 
@@ -23,6 +23,8 @@ function Settings() {
     const label = { inputProps: { 'aria-label': 'Color switch demo' } };
     return (
         <>
+        <MetaData title={'Astro5Star-Contributor'} />
+
              <div id="fixedbar">
         <Sidebar />
       </div>
