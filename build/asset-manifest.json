@@ -1,7 +1,7 @@
 {
   "files": {
-    "main.css": "/static/css/main.d5ad229b.css",
-    "main.js": "/static/js/main.68170321.js",
+    "main.css": "/static/css/main.6c2eb9d1.css",
+    "main.js": "/static/js/main.33f8c128.js",
     "static/js/787.4b9a6eb5.chunk.js": "/static/js/787.4b9a6eb5.chunk.js",
     "static/media/About.jpg": "/static/media/About.2e36871809f081ea16a0.jpg",
     "static/media/astrologer.jpg": "/static/media/astrologer.fb3e557166462fe193a4.jpg",
@@ -15,12 +15,12 @@
     "static/media/benefits-astro.png": "/static/media/benefits-astro.341bf88d2ba8e7ed517e.png",
     "static/media/qq.jpg": "/static/media/qq.ba18f274d5c82e632d5d.jpg",
     "index.html": "/index.html",
-    "main.d5ad229b.css.map": "/static/css/main.d5ad229b.css.map",
-    "main.68170321.js.map": "/static/js/main.68170321.js.map",
+    "main.6c2eb9d1.css.map": "/static/css/main.6c2eb9d1.css.map",
+    "main.33f8c128.js.map": "/static/js/main.33f8c128.js.map",
     "787.4b9a6eb5.chunk.js.map": "/static/js/787.4b9a6eb5.chunk.js.map"
   },
   "entrypoints": [
-    "static/css/main.d5ad229b.css",
-    "static/js/main.68170321.js"
+    "static/css/main.6c2eb9d1.css",
+    "static/js/main.33f8c128.js"
   ]
 }
