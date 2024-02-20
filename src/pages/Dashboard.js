@@ -4,6 +4,8 @@ import earning from "../assests/earning.png";
 import { BsArrowUpShort, BsArrowDownShort } from "react-icons/bs";
 import "../Stylesheets/Dashboard.css";
 import MetaData from "./MetaData";
+import { useState } from "react";
+import { useSelector } from "react-redux";
 import {
   Chart as ChartJS,
   Tooltip,
@@ -96,6 +98,18 @@ function Dashboard() {
   }));
 
   const label = { inputProps: { "aria-label": "Color switch demo" } };
+  const { astrologer = [] } = useSelector((state) => state.astroState);
+
+  const [voiceCallEnabled, setVoiceCallEnabled] = useState(
+    astrologer[0].callAvailable
+  );
+  const [textChatEnabled, setTextChatEnabled] = useState(
+    astrologer[0].chatAvailable
+  );
+  const [emergencyCallEnabled, setEmergencyCallEnabled] = useState(
+    astrologer[0].emergencyCallAvailable
+  );
+  
   return (
     <>
         <MetaData title={'Astro5Star-Contributor'} />
@@ -185,15 +199,27 @@ function Dashboard() {
               <p style={{ textAlign: "right" }}>Off/On</p>
               <div>
                 <p>Voice call</p>
-                <CustomSwitch {...label} defaultChecked />
+                <CustomSwitch
+              {...label}
+              checked={voiceCallEnabled}
+              onChange={() => setVoiceCallEnabled(!voiceCallEnabled)}
+            />
               </div>
               <div>
                 <p>Text chat</p>
-                <CustomSwitch {...label} defaultChecked />
+                <CustomSwitch
+              {...label}
+              checked={textChatEnabled}
+              onChange={() => setTextChatEnabled(!textChatEnabled)}
+            />
               </div>
               <div>
                 <p>Emergency call</p>
-                <CustomSwitch {...label} defaultChecked />
+                <CustomSwitch
+              {...label}
+              defaultChecked={emergencyCallEnabled}
+              onChange={() => setEmergencyCallEnabled(!emergencyCallEnabled)}
+            />
               </div>
             </div>
           </section>
