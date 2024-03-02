@@ -30,6 +30,13 @@
 .bgDim {
   background-color: rgba(0, 0, 0, 0.5) !important;
 }
+.header_line{
+  height: 3px;
+  width: 40px;
+  background-color: #FFCB11;
+  border-radius: 10px;
+  margin-top: 3px;        
+}
 
 @media screen and (max-width: 736px) {
   .infoContainer {

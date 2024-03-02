@@ -1,0 +1,39 @@
+
+.sd-header{
+background-color: white;
+border-radius:10px;
+padding : 10px 15px;
+margin:10px;
+display:flex;
+gap:10px;
+justify-content: flex-start;
+align-items: center;
+box-shadow: rgba(50, 50, 93, 0.25) 0px 6px 12px -2px, rgba(0, 0, 0, 0.3) 0px 3px 7px -3px;
+}
+ .header{
+    text-transform: capitalize; 
+    margin-top:7px;
+}
+.sd-search{
+background-color: white;
+border-radius:10px;
+padding : 5px 10px;
+margin:10px;
+display: flex;
+align-items: center;
+box-shadow: rgba(50, 50, 93, 0.25) 0px 6px 12px -2px, rgba(0, 0, 0, 0.3) 0px 3px 7px -3px;
+}
+.search-box{
+    outline-width:0;
+    border:none;
+    font-size:1.5rem;
+    margin-left:10px;
+}
+.sd-coversation{
+background-color: white;
+border-radius:10px;
+padding : 5px 10px;
+margin:10px;
+flex:1;
+box-shadow: rgba(50, 50, 93, 0.25) 0px 6px 12px -2px, rgba(0, 0, 0, 0.3) 0px 3px 7px -3px;
+}

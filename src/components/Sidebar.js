@@ -12,10 +12,12 @@ import { IoMdNotificationsOutline } from "react-icons/io"
 import { RiArrowDropDownLine } from "react-icons/ri"
 import astrologer from "../assests/astrologer.jpg"
 import welcome from "../assests/welcome.png"
-import { useRef, useEffect } from "react";
+import { useRef, useEffect,useState } from "react";
+import { useSelector } from "react-redux"
 
 function Sidebar() {
-
+    const { astrologer,token } = useSelector((state) => state.astroState);
+    const[user,setUser]= useState(null)
     function toggledropdown() {
         let content = document.querySelector(".drop-content")
         content.classList?.toggle("toggle-content")
@@ -38,11 +40,16 @@ function Sidebar() {
             closedropdown()
         }
     }
+
+
+    
+
+    
     useEffect(() => {
         document.addEventListener("click", handleDroptwo, true)
     }, [])
      function fetchData() {
-        let response = fetch("http://65.1.100.86:8000/api/v1/astrologer/logoutAstrologer", {
+        let response = fetch(`${process.env.REACT_APP_URL}/api/v1/astrologer/logoutAstrologer`, {
             method: "GET",
         });
       
@@ -81,7 +88,7 @@ function Sidebar() {
                             <span>Call</span>
                         </Link>
                     </div>
-                    <Link className="side-link">
+                    <Link className="side-link" to={`/chats/${astrologer[0]?._id}`}>
                         <MdAddToQueue style={{ fontSize: "20px" }} />
                         <span>Chat requests</span>
                     </Link>
@@ -99,7 +106,7 @@ function Sidebar() {
             <main>
                 <header id="head">
                     <article>
-                        <h4>Hello <span style={{ color: "#FFCB11" }}>Raghavendraswamyar</span></h4>
+                        <h4> <span style={{ color: "#FFCB11", textTransform:"capitalize" }}>{astrologer[0]?.displayname}</span></h4>
                         {/* <img src={welcome} alt="welcome" className="welcome" /> */}
                     </article>
                     <div>
@@ -114,7 +121,7 @@ function Sidebar() {
                         {/* Profile */}
                         <div className="profileDrop">
                             <button className="dropbtn" onClick={toggledropdown}>
-                                <img src={astrologer} alt="astrologer" className="astrologer" />
+                                <p  className="con-icon" style={{ color: "#FFF", background:"#FFCB11", marginTop: "15px", textTransform:"capitalize" }} >{astrologer[0]?.displayname[0]}</p>
                                 <div style={{ marginTop: "5px" }}><RiArrowDropDownLine style={{ fontSize: "25px" }} /></div>
                             </button>
                             <div className="drop-content" ref={dropTwo}>

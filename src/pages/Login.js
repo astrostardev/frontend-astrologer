@@ -111,10 +111,7 @@ const submitHandler = async () => {
     console.error('Login failed:', error);
   }
 };
-// useEffect(()=>{
-//   console.log('astrologers',astrologers);
-  
-//   },[astrologers])
+
 
   const checkAstrologer = () => {
 
@@ -179,7 +176,7 @@ const submitHandler = async () => {
     return () => {
       clearInterval(interval);
     };
-  }, [seconds]);
+  }, [seconds,minutes]);
 
   const resendOTP = () => {
     setMinutes(1);
@@ -187,7 +184,7 @@ const submitHandler = async () => {
   };
 
   function handleVerify() {
-    if (otp == "123456") {
+    if (otp === "123456") {
       setOtpalert(false);
       handleClick(3);
       navigate("/dashboard");
@@ -198,24 +195,16 @@ const submitHandler = async () => {
 
   //step-3
   const {
-    register,
     handleSubmit,
     reset,
-    formState: { errors, isSubmitSuccessful },
+    formState: { isSubmitSuccessful },
   } = useForm();
 
   useEffect(() => {
     reset();
   }, [isSubmitSuccessful, reset]);
 
-  const validation = {
-    username: {
-      required: {
-        value: true,
-        message: "Fill the details",
-      },
-    },
-  };
+ 
   return (
     <div id="login">
         <MetaData title={'Astro5Star-Contributor'} />

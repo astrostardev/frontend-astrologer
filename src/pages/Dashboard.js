@@ -101,13 +101,13 @@ function Dashboard() {
   const { astrologer = [] } = useSelector((state) => state.astroState);
 
   const [voiceCallEnabled, setVoiceCallEnabled] = useState(
-    astrologer[0].callAvailable
+    astrologer[0]?.callAvailable
   );
   const [textChatEnabled, setTextChatEnabled] = useState(
-    astrologer[0].chatAvailable
+    astrologer[0]?.chatAvailable
   );
   const [emergencyCallEnabled, setEmergencyCallEnabled] = useState(
-    astrologer[0].emergencyCallAvailable
+    astrologer[0]?.emergencyCallAvailable
   );
   
   return (

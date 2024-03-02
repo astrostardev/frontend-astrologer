@@ -1,0 +1,108 @@
+.main__userprofile {
+    width: 30vw;
+    padding: 0 20px 0 40px;
+    transition: all 0.3s ease-in-out;
+    overflow: hidden;
+    position: relative;
+  }
+  .ruler{
+    width:20vw;
+  }
+  .profile__card {
+    margin-top:1rem;
+    background-color: #fff;
+    border-radius: 10px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    transform: scale(0);
+    animation-name: showIn;
+    animation-duration: 0.2s; /* or: Xms */
+    animation-iteration-count: 1;
+    animation-direction: normal; /* or: normal */
+    animation-timing-function: cubic-bezier(
+      0.17,
+      0.67,
+      0.12,
+      1.53
+    ); /* or: ease, ease-in, ease-in-out, linear, cubic-bezier(x1, y1, x2, y2) */
+    animation-fill-mode: both; /* or: backwards, both, none */
+    animation-delay: 0.3s; /* or: Xms */
+    margin-bottom: 15px;
+  }
+
+  #circle_img {
+    width: 100px;
+    height: 100px;
+    position: relative;
+    top: -2rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 50%;
+    padding: 7px;
+    object-fit: cover;
+    background-color: #f3f3f3;
+  }
+  #circle_img img {
+    max-width: 100%;
+    border-radius: 50%;
+    height: 100%;
+  }
+  .form-group label {
+    text-transform: capitalize;
+    font-size: 2vmin;
+  }
+  
+  .about_user {
+
+    height: 200px;
+    position: relative;
+    top: -2rem;
+    display: flex;
+    text-align: center;
+    flex-direction: column;
+    align-items: center;
+    justify-content: space-around !important;
+  }
+  .about_user h3 {
+    font-size: 3vmin;
+    text-transform: capitalize;
+  }
+  .about_user p {
+    font-size: 2vmin;
+  }
+  .social_icon {
+    display: flex;
+
+
+    align-items: center;
+    justify-content: center;
+    gap: 15%;
+    margin-top: -20px;
+    margin-bottom:20px;
+  }
+  .social_icon i {
+    font-size: 2.5vmin;
+    color: gray;
+  }
+  
+ 
+  @media screen and (max-width:900px){
+    .main__userprofile {
+      width: 55vw;
+      
+    }
+    .ruler{
+      width:330px;
+    }
+    
+  }
+  
+  @media screen and (max-width:600px) {
+    .main__userprofile {
+   display: none;
+    }
+      
+  }

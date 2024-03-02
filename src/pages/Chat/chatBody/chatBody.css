@@ -1,0 +1,26 @@
+.main__chatbody {
+  border-radius: 10px;
+  display: flex;
+  padding: 20px;
+  min-height: 90vh;
+  margin-left: 15.5rem;
+}
+.sidebar_container {
+  flex: 0.3;
+  border-radius: 10px 0 0 10px;
+  display: flex;
+  flex-direction: column;
+  background-color: rgb(253, 250, 220);
+
+}
+.main__chatcontent {
+  flex: 0.7;
+
+}
+@media screen and (max-width: 900px) {
+  .main__chatbody {
+    /* flex-direction: column; */
+    gap: 2rem;
+  }
+
+}

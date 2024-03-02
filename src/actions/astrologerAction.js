@@ -17,7 +17,7 @@ export const login = (mobileNo,token) => async (dispatch) => {
                 Authorization: `Bearer ${token}`
             }
         }
-        const response= await axios.get(`http://65.1.100.86:8000/api/v1/astrologer/phoneNo?mobilePrimary=${mobileNo}`,config);
+        const response= await axios.get(`${process.env.REACT_APP_URL}/api/v1/astrologer/phoneNo?mobilePrimary=${mobileNo}`,config);
     
 
         dispatch(loginSuccess(response.data))
@@ -38,7 +38,7 @@ export const clearAuthError = dispatch => {
 export const logout =  async (dispatch) => {
 
     try {
-        const {data} = await axios.get('http://65.1.100.86:8000/api/v1/admin/logout')
+        const {data} = await axios.get(`${process.env.REACT_APP_URL}/api/v1/admin/logout`)
         dispatch(logoutSuccess(data))
     } catch (error) {
         dispatch(logoutFail())
