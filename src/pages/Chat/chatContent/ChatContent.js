@@ -9,9 +9,10 @@ import { AnimatePresence } from "framer-motion";
 import { motion } from "framer-motion";
 import { useParams } from "react-router-dom";
 import { useSelector } from "react-redux";
-import io from 'socket.io-client'
-const ENDPOINT = "http://localhost:8001"
-var socket
+import { fetchChatFail,fetchChatRequest,fetchChatSuccess, sendChatFail, sendChatRequest, sendChatSuccess } from "../../../slice/conversationSlice";
+import { useDispatch } from "react-redux";
+
+const ENDPOINT = "ws://localhost:8001"
 function ChatContent(props) {
   const {token,astrologer} = useSelector((state) => state.astroState);
   const [refresh, setRefresh] = useState(false);
@@ -19,125 +20,159 @@ function ChatContent(props) {
   const { id } = useParams();
   const splitId = id.split("+")[0].trim();
   const [allMessages, setAllMessages] = useState(null);
-  const [allMessagesCopy, setAllMessagesCopy] = useState(null);
-
-  const [message, setMessageContent] = useState("");
-  const [loaded, setLoaded] = useState(false);
+  const[socket,setSocket]=useState(null)
+  const [messageContent, setMessageContent] = useState("");
   const  messagesEndRef = useRef()
-  const[socketConnectionStatus,setSocketConnectionStatus]=useState(false)
+  const dispatch = useDispatch();
 
  //adding automating scroll bottom 
  const scrollToBottom =()=>{
   messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
  }
-console.log('userId',splitId);
 
 //using socket.io
 
-useEffect(()=>{
-  socket = io(ENDPOINT);
-  socket.emit("setup astro",astrologer);
-  socket.on("connection",()=>{
-    setSocketConnectionStatus(!socketConnectionStatus)
-  })
-
-},[])
-  //get existing message
+//initialising WebSocket
   useEffect(() => {
-    const getAllMsg = async () => {
-      try {
-        let response = await fetch(
-          `${process.env.REACT_APP_URL}/api/v1/astro_messages/${splitId}`,
-          {
-            method: "GET",
-            headers: {
-              Authorization: `Bearer ${token}`,
-            },
-          }
-        );
-        socket.emit("join chat", splitId);
+    const newSocket = new WebSocket(ENDPOINT);
 
-        if (!response.ok) {
-          throw new Error("Network response was not ok");
-        }
-        let data = await response.json();
+    newSocket.onopen = () => {
+      console.log("Connected to WebSocket server");
 
-        setAllMessages(data);
-        setLoaded(true);
-        setAllMessagesCopy(allMessages)
-
-      } catch (error) {
-        console.error("Error fetching data:", error);
-      }
+      const setupMessage = {
+        type: "setup_astro",
+        astrologerId: astrologer[0]?._id,
+      };
+      newSocket.send(JSON.stringify(setupMessage));
     };
-    getAllMsg();
-  }, [refresh,token,allMessages,splitId]);
 
-  //send message function
-  const sendMessage = async () => {
+    newSocket.onclose = () => {
+      console.log("Disconnected from WebSocket server");
+    };
+
+
+    setSocket(newSocket);
+
+    return () => {
+      newSocket.close();
+    };
+  }, [astrologer]);
+
+
+//get messages
+useEffect(() => {
+  const getChatMessages = async () => {
     try {
-      let response = await fetch(
-        `${process.env.REACT_APP_URL}/api/v1/message/send/user/${splitId}`,
-        {
-          method: "POST",
-          headers: {
-            Authorization: `Bearer ${token}`,
-            "Content-Type": "application/json", // Add Content-Type header
-          },
-          body: JSON.stringify({ message }),
-        }
-      );
-      if (!response.ok) {
-        throw new Error("Network response was not ok");
-      }
-      // Parse response body as JSON
-      const data = await response.json();
-  
-      // Log the response data
-      console.log('response data', data);
-  
-      socket.emit("new message", data);
+      dispatch(fetchChatRequest()); // Dispatch action to indicate message fetching has started
+      
+      // Emit a WebSocket message to request chat messages
+      socket.send(JSON.stringify({
+        type: 'get messages',
+        room: splitId,
+        userId: astrologer[0]?._id
+      }));
     } catch (error) {
-      console.error("Error fetching data:", error);
+      dispatch(fetchChatFail(error.message));
     }
   };
+  
+  const handleMessageEvent = (event) => {
+    const messageData = JSON.parse(event.data);
+    if (messageData.type === 'messages') {
+      const messages = dispatch(fetchChatSuccess(messageData.messages));
+      console.log('getMsg',messages);
+  
+      setAllMessages(messages.payload); // Dispatch action to update messages in the state
+    } else if (messageData.type === 'new message') {
+      const messages = dispatch(fetchChatSuccess((prevMessages) => [...prevMessages, messageData]));
+      setAllMessages(messages.payload); // Dispatch action to update messages in the state
+    } else if (messageData.type === 'error') {
+      dispatch(fetchChatFail(messageData.message));
+    }
+  };
+  
+  if (socket) {
+    socket.addEventListener("open", () => {
+      console.log("WebSocket connection is open.");
+      console.log("paramsId", splitId);
+      getChatMessages(); // Call the function to fetch chat messages
+    });
+  
+    socket.addEventListener("message", handleMessageEvent);
+  
+    socket.addEventListener("close", () => {
+      console.log("WebSocket connection is closed.");
+    });
+  } else {
+    console.error("WebSocket connection is not open.");
+  }
+  
+  // Cleanup function
+  return () => {
+    if (socket) {
+      socket.removeEventListener("message", handleMessageEvent);
+    }
+  };
+  }, [dispatch, socket, splitId, astrologer]);
+  const [users, setUsers] = useState(null);
+  // send message function
+  const sendMessage = async () => {
+    try {
+      dispatch(sendChatRequest()); // Dispatch action to indicate message sending has started
 
-  //header part of selected astrologer
-  useEffect(() => {
-    const getUser = async () => {
-      try {
-        let response = await fetch(
-          `${process.env.REACT_APP_URL}/api/v1/user/getuser/${splitId}`,
-          {
-            method: "GET",
-            headers: {
-              Authorization: `Bearer ${token}`,
-            },
-          }
-        );
+      // Emit a WebSocket message to send a new chat message
+      socket.send(
+        JSON.stringify({
+          type: 'new message',
+          room: splitId,
+          userId: astrologer[0]?._id,
+          message: messageContent
+        })
+      );
 
-        if (!response.ok) {
-          throw new Error("Network response was not ok");
+      // Listen for WebSocket messages containing chat messages
+      socket.addEventListener('message', (event) => {
+        const messageData = JSON.parse(event.data);
+        if (messageData.type === 'new message') {
+          // Dispatch action to update messages in the state
+          dispatch(sendChatSuccess(messageData));
+        } else if (messageData.type === 'error') {
+          dispatch(sendChatFail(messageData.message));
         }
-        let data = await response.json();
-        console.log("astrologer", data.user);
-        setUser(data.user);
-        setLoaded(true);
-      } catch (error) {
-        console.error("Error fetching data:", error);
-      }
+      });
+    } catch (error) {
+      dispatch(sendChatFail(error.message));
+    }
+  };
+  
+  useEffect(() => {
+    if (socket) {
+      socket.addEventListener("open", () => {
+        console.log("WebSocket connection is open.");
+        console.log("paramsId", splitId);
+        // No need to call any function here
+      });
+  
+      socket.addEventListener("close", () => {
+        console.log("WebSocket connection is closed.");
+      });
+    } else {
+      console.error("WebSocket connection is not open.");
+    }
+  
+    // Cleanup function
+    return () => {
+      // Remove event listeners or perform any cleanup if needed
     };
-    getUser();
-  }, [splitId]);
+  }, [socket, splitId,astrologer]);
+  
 
   useEffect(() => {
     scrollToBottom();
   }, [allMessages]);
 
-  // Scroll to bottom when window is loaded
-  useEffect(() => {
-    scrollToBottom();
-  }, []);
+
+ 
   return (
     <div className="main__chatcontent">
       <AnimatePresence>
@@ -148,9 +183,9 @@ useEffect(()=>{
           transition={{ ease: "anticipate", duration: "0.3" }}
         >
           <div className="current-chatting-user">
-            <p className="con-icon">{user?.name[0]}</p>
+            <p className="con-icon">{astrologer[0]?.displayname[0]}</p>
             <div className="header-text">
-              <p className="con-title">{user?.name}</p>
+              <p className="con-title">{astrologer[0]?.displayname}</p>
               <p className="con-timeStamp">online</p>
             </div>
             <IconButton style={{ background: "#F3F3F3" }} className="btn-nobg">End</IconButton>
@@ -182,7 +217,7 @@ useEffect(()=>{
                 onChange={(e) => {
                   setMessageContent(e.target.value);
                 }}
-                value={message}
+                value={messageContent}
                 onKeyDown={(event) => {
                   if (event.code === "Enter") {
                     sendMessage();

@@ -38,6 +38,7 @@
 }
 .con-title{
     grid-area:1/2/2/4;
+    text-transform: capitalize;
     font-weight: bold;
     color:rgba(0,0,0,0,0.54)
 }

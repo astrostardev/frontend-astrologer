@@ -13,11 +13,9 @@ function MessageOthers(props) {
       <p className="con-icon" id="other_user">
         H
       </p>
-
       <div className="chat__item__content other">
         <p className="msg-title">{props?.props?.message}</p>
         <p className="chat__time">{formatedTime}</p>
-
       </div>
     </div>
   );

@@ -1,5 +1,13 @@
 export function extractTime(dateString) {
+    if (!dateString) {
+        return ''; // Return empty string if dateString is not provided
+    }
+
     const date = new Date(dateString);
+    if (isNaN(date.getTime())) {
+        return ''; // Return empty string if dateString is not a valid date
+    }
+
     let hours = date.getHours();
     const minutes = padZero(date.getMinutes());
     let amOrPm = hours >= 12 ? 'PM' : 'AM';
