@@ -7,14 +7,16 @@ import { Route, Routes, useParams } from "react-router-dom";
 import Welcome from "../chatPages/Welcome";
 import ChatContent from "../chatContent/ChatContent";
 import { useSelector, useDispatch } from "react-redux";
+import ChatOffcanvas from "../offCanvas/ChatOffcanvas";
 import {
   fetchChatFail,
   fetchChatRequest,
   fetchChatSuccess,
 } from "../../../slice/conversationSlice";
 
-const ENDPOINT = "ws://localhost:8001";
-function ChatBody(props) {
+const ENDPOINT = process.env.REACT_APP_SOCKET_URL;
+
+function ChatBody({showChat}) {
   const { astrologer, token } = useSelector((state) => state.astroState);
   const { id } = useParams();
   const splitId = id.split("+")[0].trim();
@@ -22,8 +24,13 @@ function ChatBody(props) {
   const [recentMessage, setAllMessages] = useState([]);
   const [users, setUsers] = useState(null);
   const dispatch = useDispatch();
+  const [showChatarea, setShowChatArea] = useState(false);
 
+  useEffect(() => {
+    setShowChatArea(showChat);
+  }, [showChatarea, showChat]);
   //initialising WebSocket
+  console.log('endponit',ENDPOINT);
   useEffect(() => {
     const newSocket = new WebSocket(ENDPOINT);
 
@@ -163,6 +170,20 @@ function ChatBody(props) {
           }
           user={users}
         />
+
+        <ChatOffcanvas latestMsg={
+            recentMessage?.length > 0
+              ? recentMessage[recentMessage?.length - 1]?.message
+              : " "
+          }
+          time={
+            recentMessage?.length > 0
+              ? recentMessage[recentMessage?.length - 1]?.createdAt
+              : " "
+          }
+          user={users} />
+
+        {showChatarea ? <ChatContent /> : ""}
 
         <Routes>
           <Route path="/" element={<Welcome />} />

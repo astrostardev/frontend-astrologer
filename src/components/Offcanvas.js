@@ -14,8 +14,13 @@ import { FiHelpCircle } from "react-icons/fi"
 import { RiCloseLine } from "react-icons/ri"
 import { Link } from "react-router-dom"
 import { useRef, useEffect } from "react"
+import { useSelector } from "react-redux"
+
 
 function Offcanvas() {
+
+    const { astrologer,token } = useSelector((state) => state.astroState);
+
     function openCanvas() {
         let canvas = document.querySelector(".canvas")
         canvas.classList?.add("openCanvas")
@@ -96,7 +101,7 @@ function Offcanvas() {
                             <span>Call</span>
                         </Link>
                     </div>
-                    <Link className="side-link" onClick={closeCanvas}>
+                    <Link className="side-link" to={`/chats/${astrologer[0]?._id}`} onClick={closeCanvas}>
                         <MdAddToQueue style={{ fontSize: "20px" }} />
                         <span>Chat requests</span>
                     </Link>
@@ -132,7 +137,7 @@ function Offcanvas() {
                         {/* Profile */}
                         <div className="profileDrop">
                             <button className="dropbtn" onClick={toggledropdown}>
-                                <img src={astrologer} alt="astrologer" className="astrologer" />
+                                <h4> <span style={{ color: "#FFCB11", textTransform:"capitalize" }}>{astrologer[0]?.displayname[0]}</span></h4>
                                 <div style={{ marginTop: "5px" }}><RiArrowDropDownLine style={{ fontSize: "25px" }} /></div>
                             </button>
                             <div className="drop" ref={dropOne}>

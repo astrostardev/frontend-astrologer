@@ -1,5 +1,6 @@
 .welcome-logo{
-    height:20vw;
+    height:20vh;
+ 
 }
 .welcome-container{
     display:flex;
@@ -19,3 +20,15 @@
     color:rgba(0,0,0,0.54);
 
 }
+@media screen and (max-width: 500px) {
+    .welcome-container {
+   
+      flex:1;
+    
+  
+    }
+    .welcome-logo{
+    height: 30vh !important;
+    }
+
+  }

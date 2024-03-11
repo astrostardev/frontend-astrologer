@@ -45,7 +45,7 @@ function Settings() {
       };
 
       const response = await fetch(
-        `http://127.0.0.1:8001/api/v1/astrologer/available/${astrologer[0]?._id}`,
+        `${process.env.REACT_APP_URL}/api/v1/astrologer/available/${astrologer[0]?._id}`,
 
         {
           method: "POST",

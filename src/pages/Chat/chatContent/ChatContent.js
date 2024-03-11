@@ -19,7 +19,7 @@ import {
 } from "../../../slice/conversationSlice";
 import { useDispatch } from "react-redux";
 
-const ENDPOINT = "ws://localhost:8001";
+const ENDPOINT = process.env.REACT_APP_SOCKET_URL ;
 
 function ChatContent({ userName }) {
   const { token, astrologer } = useSelector((state) => state.astroState);

@@ -4,10 +4,9 @@
   flex-direction: column;
   padding: 10px 10px;
   flex: 0.7;
-  background-color: rgb(253, 250, 220);
+  background-color: rgb(255, 254, 240) !important;
 
-
-
+  /* background-color: red !important; */
   border-right: 1px solid #ebe7fb;
 }
 
@@ -38,7 +37,7 @@
   padding: 5px 10px;
   border-radius: 5px;
 }
- .btn-nobg {
+.btn-nobg {
   color: #000;
   border: none;
   background-color: transparent;
@@ -53,18 +52,17 @@
 
   transition: all 0.3s ease-in-out;
 }
- .btn-nobg:hover {
+.btn-nobg:hover {
   transform: scale(1.07);
-  background-color: rgb(253, 250, 220)!important;
-  
+  background-color: rgb(240, 255, 248) !important;
 }
 .content__body {
   overflow: scroll;
   padding: 20px 30px;
   scrollbar-width: none;
-  height:65vh;
+  height: 65vh;
   background-color: white;
-  margin: 15px 0px ;
+  margin: 15px 0px;
   margin-bottom: 10px;
   border-radius: 10px;
   box-shadow: rgba(50, 50, 93, 0.25) 0px 6px 12px -2px,
@@ -113,7 +111,7 @@
 }
 
 .chat__item__content {
-  background:  #FFCB11;
+  background: #ffcb11;
   color: #fff;
   display: grid;
   position: relative;
@@ -152,8 +150,8 @@
 }
 
 .content__footer {
-  border-radius:10px;
-  padding:5px 10px;
+  border-radius: 10px;
+  padding: 5px 10px;
   background-color: white;
   box-shadow: rgba(50, 50, 93, 0.25) 0px 6px 12px -2px,
     rgba(0, 0, 0, 0.3) 0px 3px 7px -3px;
@@ -196,15 +194,26 @@
   outline: none;
 }
 #sendMsgBtn {
-  background-color:  #FFCB11;
+  background-color: #ffcb11;
   color: #fff;
   font-size: 20px;
 }
-
-@media screen and (max-width: 736px) {
+@media screen and (max-width: 500px) {
+  .main__chatcontent {
+    /* display: none; */
+    background-color: rgb(240, 255, 248);
+    flex: 1;
+    width: 85%;
+    height:80%;
+    margin-left: 30px;
+    position: fixed;
+  }
+}
+/* @media screen and (max-width: 736px) {
   .main__chatcontent {
     width: 95vw;
     border: none;
+
   }
   .chat__item__content {
     background: #f3f3f3;
@@ -227,14 +236,14 @@
     display: flex;
     width: 80vw;
     /* padding: 10px; */
-    border-radius: 8px;
-    margin-left: -8px;
-  }
-}
+/* border-radius: 8px; */
+/* margin-left: -8px; */
+/* } */
+/* } */
 
-@media screen and ((max-width: 1057px) and (min-width:700px)) {
+/* @media screen and ((max-width: 1057px) and (min-width:700px)) {
   .main__chatcontent {
     width: 58vw;
     border: none;
   }
-}
+} */

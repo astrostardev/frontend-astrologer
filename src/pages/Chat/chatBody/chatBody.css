@@ -10,17 +10,28 @@
   border-radius: 10px 0 0 10px;
   display: flex;
   flex-direction: column;
-  background-color: rgb(253, 250, 220);
-
+  background-color: rgb(240, 255, 248);
 }
-.main__chatcontent {
-  flex: 0.7;
 
-}
 @media screen and (max-width: 900px) {
   .main__chatbody {
     /* flex-direction: column; */
     gap: 2rem;
+    /* margin-left:-16px; */
+  }
+
+}
+
+@media screen and (max-width: 500px) {
+  .main__chatbody {
+    /* flex-direction: column; */
+    gap: 2rem;
+    margin-left:0rem;
+
+    /* margin-left:-16px; */
+  }
+  .sidebar_container{
+   display: none; 
   }
 
 }
