@@ -1,52 +1,16 @@
-import React, { useEffect, useState } from "react";
+import React from "react";
 import "./sidebar.css";
 import { FaUserCircle } from "react-icons/fa";
 import { IconButton } from "@mui/material";
 import ConversationItem from "../ConversationItem/ConversationItem";
 import { useSelector } from "react-redux";
 
-function Sidebar({latestMsg,time}) {
+function Sidebar({ latestMsg, time, user }) {
   const messagesArray = useSelector(
     (state) => state?.conversationState?.messages?.message
   );
   const { astrologer, token } = useSelector((state) => state.astroState);
-  const [users, setUsers] = useState(null);
   const recentMsg = messagesArray ? messagesArray : latestMsg;
-
-
-  useEffect(() => {
-    // sendUserId();
-    getUser();
-  }, []);
-  async function getUser() {
-    console.log(astrologer[0]?._id);
-    try {
-      let response = await fetch(
-        `${process.env.REACT_APP_URL}/api/v1/fetch_chat/${astrologer[0]?._id}`,
-        {
-          headers: {
-            "Content-Type": "application/json",
-            Authorization: `Bearer ${token}`,
-          },
-          method: "GET",
-
-          // Assuming astrologerId is expected in the backend
-        }
-      );
-
-      if (!response.ok) {
-        throw new Error("Failed to fetch user");
-      }
-
-      let data = await response.json();
-      setUsers(data?.chats);
-      console.log("usersfds", users);
-
-      // Assuming data contains user information
-    } catch (error) {
-      console.error("Error fetching user:", error);
-    }
-  }
 
   return (
     <div className="sidebar_container">
@@ -72,7 +36,7 @@ function Sidebar({latestMsg,time}) {
 
       <div className="sd-coversation">
         <ConversationItem
-          props={users}
+          props={user}
           message={messagesArray ? messagesArray : recentMsg}
           time={time}
           messages={messagesArray}

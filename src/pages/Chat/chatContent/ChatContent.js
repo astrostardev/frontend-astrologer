@@ -9,30 +9,35 @@ import { AnimatePresence } from "framer-motion";
 import { motion } from "framer-motion";
 import { useParams } from "react-router-dom";
 import { useSelector } from "react-redux";
-import { fetchChatFail,fetchChatRequest,fetchChatSuccess, sendChatFail, sendChatRequest, sendChatSuccess } from "../../../slice/conversationSlice";
+import {
+  fetchChatFail,
+  fetchChatRequest,
+  fetchChatSuccess,
+  sendChatFail,
+  sendChatRequest,
+  sendChatSuccess,
+} from "../../../slice/conversationSlice";
 import { useDispatch } from "react-redux";
 
-const ENDPOINT = "ws://localhost:8001"
-function ChatContent(props) {
-  const {token,astrologer} = useSelector((state) => state.astroState);
+const ENDPOINT = "ws://localhost:8001";
+
+function ChatContent({ userName }) {
+  const { token, astrologer } = useSelector((state) => state.astroState);
   const [refresh, setRefresh] = useState(false);
-  const [user, setUser] = useState(null);
   const { id } = useParams();
   const splitId = id.split("+")[0].trim();
   const [allMessages, setAllMessages] = useState(null);
-  const[socket,setSocket]=useState(null)
+  const [socket, setSocket] = useState(null);
   const [messageContent, setMessageContent] = useState("");
-  const  messagesEndRef = useRef()
+  const messagesEndRef = useRef();
   const dispatch = useDispatch();
 
- //adding automating scroll bottom 
- const scrollToBottom =()=>{
-  messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
- }
+  //adding automating scroll bottom
+  const scrollToBottom = () => {
+    messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
+  };
 
-//using socket.io
-
-//initialising WebSocket
+  //initialising WebSocket
   useEffect(() => {
     const newSocket = new WebSocket(ENDPOINT);
 
@@ -40,8 +45,8 @@ function ChatContent(props) {
       console.log("Connected to WebSocket server");
 
       const setupMessage = {
-        type: "setup_astro",
-        astrologerId: astrologer[0]?._id,
+        type: "setup",
+        userId: astrologer[0]?._id,
       };
       newSocket.send(JSON.stringify(setupMessage));
     };
@@ -50,7 +55,6 @@ function ChatContent(props) {
       console.log("Disconnected from WebSocket server");
     };
 
-
     setSocket(newSocket);
 
     return () => {
@@ -58,63 +62,66 @@ function ChatContent(props) {
     };
   }, [astrologer]);
 
+  //get messages
+  useEffect(() => {
+    const getChatMessages = async () => {
+      try {
+        dispatch(fetchChatRequest()); // Dispatch action to indicate message fetching has started
 
-//get messages
-useEffect(() => {
-  const getChatMessages = async () => {
-    try {
-      dispatch(fetchChatRequest()); // Dispatch action to indicate message fetching has started
-      
-      // Emit a WebSocket message to request chat messages
-      socket.send(JSON.stringify({
-        type: 'get messages',
-        room: splitId,
-        userId: astrologer[0]?._id
-      }));
-    } catch (error) {
-      dispatch(fetchChatFail(error.message));
-    }
-  };
-  
-  const handleMessageEvent = (event) => {
-    const messageData = JSON.parse(event.data);
-    if (messageData.type === 'messages') {
-      const messages = dispatch(fetchChatSuccess(messageData.messages));
-      console.log('getMsg',messages);
-  
-      setAllMessages(messages.payload); // Dispatch action to update messages in the state
-    } else if (messageData.type === 'new message') {
-      const messages = dispatch(fetchChatSuccess((prevMessages) => [...prevMessages, messageData]));
-      setAllMessages(messages.payload); // Dispatch action to update messages in the state
-    } else if (messageData.type === 'error') {
-      dispatch(fetchChatFail(messageData.message));
-    }
-  };
-  
-  if (socket) {
-    socket.addEventListener("open", () => {
-      console.log("WebSocket connection is open.");
-      console.log("paramsId", splitId);
-      getChatMessages(); // Call the function to fetch chat messages
-    });
-  
-    socket.addEventListener("message", handleMessageEvent);
-  
-    socket.addEventListener("close", () => {
-      console.log("WebSocket connection is closed.");
-    });
-  } else {
-    console.error("WebSocket connection is not open.");
-  }
-  
-  // Cleanup function
-  return () => {
+        // Emit a WebSocket message to request chat messages
+        socket.send(
+          JSON.stringify({
+            type: "get messages",
+            room: splitId,
+            userId: astrologer[0]?._id,
+          })
+        );
+      } catch (error) {
+        dispatch(fetchChatFail(error.message));
+      }
+    };
+
+    const handleMessageEvent = (event) => {
+      const messageData = JSON.parse(event.data);
+      if (messageData.type === "messages") {
+        const messages = dispatch(fetchChatSuccess(messageData.messages));
+
+        setAllMessages(messages.payload); // Dispatch action to update messages in the state
+      } else if (messageData.type === "new message") {
+        const messages = dispatch(
+          fetchChatSuccess((prevMessage = []) => [...prevMessage, messageData])
+        ); // Dispatch action with messageData as payload
+
+        setAllMessages(messages.payload); // Dispatch action to update messages in the state
+      } else if (messageData.type === "error") {
+        dispatch(fetchChatFail(messageData.message));
+      }
+    };
+
     if (socket) {
-      socket.removeEventListener("message", handleMessageEvent);
+      socket.addEventListener("open", () => {
+        console.log("WebSocket connection is open.");
+        getChatMessages(); // Call the function to fetch chat messages
+      });
+
+      socket.addEventListener("message", handleMessageEvent);
+
+      socket.addEventListener("close", () => {
+        console.log("WebSocket connection is closed.");
+      });
+    } else {
+      console.error("WebSocket connection is not open.");
     }
-  };
+
+    // Cleanup function
+    return () => {
+      if (socket) {
+        socket.removeEventListener("message", handleMessageEvent);
+      }
+    };
   }, [dispatch, socket, splitId, astrologer]);
-  const [users, setUsers] = useState(null);
+
+
   // send message function
   const sendMessage = async () => {
     try {
@@ -123,20 +130,20 @@ useEffect(() => {
       // Emit a WebSocket message to send a new chat message
       socket.send(
         JSON.stringify({
-          type: 'new message',
+          type: "new message",
           room: splitId,
           userId: astrologer[0]?._id,
-          message: messageContent
+          message: messageContent,
         })
       );
 
       // Listen for WebSocket messages containing chat messages
-      socket.addEventListener('message', (event) => {
+      socket.addEventListener("message", (event) => {
         const messageData = JSON.parse(event.data);
-        if (messageData.type === 'new message') {
+        if (messageData.type === "new message") {
           // Dispatch action to update messages in the state
           dispatch(sendChatSuccess(messageData));
-        } else if (messageData.type === 'error') {
+        } else if (messageData.type === "error") {
           dispatch(sendChatFail(messageData.message));
         }
       });
@@ -144,35 +151,31 @@ useEffect(() => {
       dispatch(sendChatFail(error.message));
     }
   };
-  
+
   useEffect(() => {
     if (socket) {
       socket.addEventListener("open", () => {
         console.log("WebSocket connection is open.");
-        console.log("paramsId", splitId);
         // No need to call any function here
       });
-  
+
       socket.addEventListener("close", () => {
         console.log("WebSocket connection is closed.");
       });
     } else {
       console.error("WebSocket connection is not open.");
     }
-  
+
     // Cleanup function
     return () => {
       // Remove event listeners or perform any cleanup if needed
     };
-  }, [socket, splitId,astrologer]);
-  
+  }, [socket, splitId, astrologer]);
 
   useEffect(() => {
     scrollToBottom();
   }, [allMessages]);
 
-
- 
   return (
     <div className="main__chatcontent">
       <AnimatePresence>
@@ -188,7 +191,9 @@ useEffect(() => {
               <p className="con-title">{astrologer[0]?.displayname}</p>
               <p className="con-timeStamp">online</p>
             </div>
-            <IconButton style={{ background: "#F3F3F3" }} className="btn-nobg">End</IconButton>
+            <IconButton style={{ background: "#F3F3F3" }} className="btn-nobg">
+              End
+            </IconButton>
           </div>
 
           <div className="content__body">
@@ -198,11 +203,15 @@ useEffect(() => {
                   {message.senderId === astrologer[0]?._id ? (
                     <MessageSelf props={message} key={index} />
                   ) : (
-                    <MessageOthers props={message} key={index} />
+                    <MessageOthers
+                      props={message}
+                      key={index}
+                      user={userName}
+                    />
                   )}
                 </React.Fragment>
               ))}
-                  <div ref={messagesEndRef} />
+              <div ref={messagesEndRef} />
             </div>
           </div>
           <div className="content__footer">
