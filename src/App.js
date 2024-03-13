@@ -1,5 +1,5 @@
 import "./App.css";
-import { BrowserRouter, Routes, Route } from "react-router-dom";
+import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
 import Dashboard from "./pages/Dashboard";
 import Earnings from "./pages/Earnings";
 import "bootstrap/dist/css/bootstrap.min.css";
@@ -13,9 +13,9 @@ import { HelmetProvider } from "react-helmet-async";
 import ChatBody from "./pages/Chat/chatBody/ChatBody";
 import Welcome from "./pages/Chat/chatPages/Welcome";
 import ChatContent from "./pages/Chat/chatContent/ChatContent";
-
+import { useSelector } from "react-redux";
 function App(props) {
-  // const {isAuthenticated}=useSelector(state=>state.authState)
+  const { isAuthenticated } = useSelector((state) => state.astroState);
   return (
     <div>
       <HelmetProvider>
@@ -23,16 +23,50 @@ function App(props) {
           <div>
             <Routes>
               <Route path="/" element={<AstrologerLogin />} />
-              <Route path="/dashboard" element={<Dashboard />} />
-              <Route path="/earnings" element={<Earnings />} />
-              <Route path="/settings" element={<Settings />} />
-              <Route path="/chathistory" element={<Chathistory />} />
-              <Route path="/callhistory" element={<Callhistory />} />
-              <Route path="/astroProfile" element={<ViewAstroProfile />} />
+              <Route
+                path="/dashboard"
+                element={isAuthenticated ? <Dashboard /> : <Navigate to="/" />}
+              />
+              <Route
+                path="/earnings"
+                element={isAuthenticated ? <Earnings /> : <Navigate to="/" />}
+              />
+              <Route
+                path="/settings"
+                element={isAuthenticated ? <Settings /> : <Navigate to="/" />}
+              />
+              <Route
+                path="/chathistory"
+                element={
+                  isAuthenticated ? <Chathistory /> : <Navigate to="/" />
+                }/>
+              <Route
+                path="/callhistory"
+                element={
+                  isAuthenticated ? <Callhistory /> : <Navigate to="/" />
+                }
+              />
+              <Route
+                path="/astroProfile"
+                element={
+                  isAuthenticated ? <ViewAstroProfile /> : <Navigate to="/" />
+                }
+              />
               {/* chats */}
-              <Route path="/chats/:id" element={<ChatBody />}>
-                <Route path="chat_content/:id" element={<ChatContent />} />
-                <Route path="welcome" element={<Welcome />} />
+              <Route
+                path="/chats/:id"
+                element={isAuthenticated ? <ChatBody /> : <Navigate to="/" />}
+              >
+                <Route
+                  path="chat_content/:id"
+                  element={
+                    isAuthenticated ? <ChatContent /> : <Navigate to="/" />
+                  }
+                />
+                <Route
+                  path="welcome"
+                  element={isAuthenticated ? <Welcome /> : <Navigate to="/" />}
+                />
               </Route>
             </Routes>
           </div>

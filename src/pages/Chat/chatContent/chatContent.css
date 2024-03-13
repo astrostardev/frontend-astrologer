@@ -200,11 +200,12 @@
 }
 @media screen and (max-width: 500px) {
   .main__chatcontent {
-    /* display: none; */
-    background-color: rgb(240, 255, 248);
+    background: none !important;
     flex: 1;
+    border: none !important;
     width: 85%;
     height:80%;
+    margin-top:1rem;
     margin-left: 30px;
     position: fixed;
   }

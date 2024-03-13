@@ -229,6 +229,14 @@ const submitHandler = async () => {
                 countryCodeEditable={false}
                 onlyCountries={["in"]}
                 disableDropdown={true}
+                onKeyDown={(event) => {
+                  if (event.code === "Enter") {
+                    submitHandler()
+                    checkAstrologer();
+                    handleOTP();
+                    
+                  }
+                }}
               />
             </Form.Group>
 
@@ -307,8 +315,14 @@ const submitHandler = async () => {
                 onChange={setOtp}
                 numInputs={6}
                 renderSeparator={<span className="me-2"></span>}
-                renderInput={(props) => <input {...props} className="otpBox" />}
-              />
+                renderInput={(props) => <input {...props} className="otpBox"   onKeyDown={(event) => {
+                  if (event.code === "Enter") {
+                    handleVerify()
+                  }
+                }} />}
+              
+              
+            />
               <div className="countdown-text">
                 {seconds > 0 || minutes > 0 ? (
                   <p>
