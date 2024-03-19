@@ -16,7 +16,7 @@ import {
 
 const ENDPOINT = process.env.REACT_APP_SOCKET_URL;
 
-function ChatBody({showChat}) {
+function ChatBody() {
   const { astrologer, token } = useSelector((state) => state.astroState);
   const { id } = useParams();
   const splitId = id.split("+")[0].trim();
@@ -24,13 +24,9 @@ function ChatBody({showChat}) {
   const [recentMessage, setAllMessages] = useState([]);
   const [users, setUsers] = useState(null);
   const dispatch = useDispatch();
-  const [showChatarea, setShowChatArea] = useState(false);
 
-  useEffect(() => {
-    setShowChatArea(showChat);
-  }, [showChatarea, showChat]);
+
   //initialising WebSocket
-  console.log('endponit',ENDPOINT);
   useEffect(() => {
     const newSocket = new WebSocket(ENDPOINT);
 
@@ -77,15 +73,15 @@ function ChatBody({showChat}) {
     const handleMessageEvent = (event) => {
       const messageData = JSON.parse(event.data);
       if (messageData.type === "messages") {
+        console.log("messageData Get", messageData.payload);
+
         const messages = dispatch(fetchChatSuccess(messageData.messages));
-        console.log("getMsg", messages);
 
         setAllMessages(messages.payload); // Dispatch action to update messages in the state
       } else if (messageData.type === "new message") {
         const messages = dispatch(
           fetchChatSuccess((prevMessage = []) => [...prevMessage, messageData])
-        ); // Dispatch action with messageData as payload
-
+        ); // Dispatch new Message what i have sent
         setAllMessages(messages.payload); // Dispatch action to update messages in the state
       } else if (messageData.type === "error") {
         dispatch(fetchChatFail(messageData.message));
@@ -95,7 +91,7 @@ function ChatBody({showChat}) {
     if (socket) {
       socket.addEventListener("open", () => {
         console.log("WebSocket connection is open.");
-
+        console.log("paramsId", splitId);
         getChatMessages(); // Call the function to fetch chat messages
       });
 
@@ -158,16 +154,16 @@ function ChatBody({showChat}) {
       </div>
       <div className="main__chatbody">
         <Sidebar
-          latestMsg={
-            recentMessage?.length > 0
-              ? recentMessage[recentMessage?.length - 1]?.message
-              : " "
-          }
-          time={
-            recentMessage?.length > 0
-              ? recentMessage[recentMessage?.length - 1]?.createdAt
-              : " "
-          }
+             latestMsg={
+              recentMessage?.length > 0
+                ? recentMessage[recentMessage?.length - 1]?.message
+                : " "
+            }
+            time={
+              recentMessage?.length > 0
+                ? recentMessage[recentMessage?.length - 1]?.createdAt
+                : " "
+            }
           user={users}
         />
 
@@ -183,7 +179,6 @@ function ChatBody({showChat}) {
           }
           user={users} />
 
-        {showChatarea ? <ChatContent /> : ""}
 
         <Routes>
           <Route path="/" element={<Welcome />} />

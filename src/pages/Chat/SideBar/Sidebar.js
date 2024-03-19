@@ -9,7 +9,7 @@ function Sidebar({ latestMsg, time, user }) {
   const messagesArray = useSelector(
     (state) => state?.conversationState?.messages?.message
   );
-  const { astrologer, token } = useSelector((state) => state.astroState);
+  const { astrologer } = useSelector((state) => state.astroState);
   const recentMsg = messagesArray ? messagesArray : latestMsg;
 
   return (
@@ -39,7 +39,6 @@ function Sidebar({ latestMsg, time, user }) {
           props={user}
           message={messagesArray ? messagesArray : recentMsg}
           time={time}
-          messages={messagesArray}
         />
       </div>
     </div>

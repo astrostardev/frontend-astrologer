@@ -29,6 +29,8 @@ function ChatContent({ userName }) {
   const [allMessages, setAllMessages] = useState(null);
   const [socket, setSocket] = useState(null);
   const [messageContent, setMessageContent] = useState("");
+  const [isThrottled, setIsThrottled] = useState(false);
+  const throttlingDelay = 1000;
   const messagesEndRef = useRef();
   const dispatch = useDispatch();
 
@@ -122,11 +124,17 @@ function ChatContent({ userName }) {
   }, [dispatch, socket, splitId, astrologer]);
 
 
-  // send message function
+  // send message function using throttling  
   const sendMessage = async () => {
     try {
+      if (isThrottled) {
+        console.log("Message sending is throttled. Please wait.");
+        return;
+      }
+  
+      setIsThrottled(true); // Throttle the function
       dispatch(sendChatRequest()); // Dispatch action to indicate message sending has started
-
+  
       // Emit a WebSocket message to send a new chat message
       socket.send(
         JSON.stringify({
@@ -136,7 +144,7 @@ function ChatContent({ userName }) {
           message: messageContent,
         })
       );
-
+  
       // Listen for WebSocket messages containing chat messages
       socket.addEventListener("message", (event) => {
         const messageData = JSON.parse(event.data);
@@ -144,14 +152,19 @@ function ChatContent({ userName }) {
           // Dispatch action to update messages in the state
           dispatch(sendChatSuccess(messageData));
         } else if (messageData.type === "error") {
-          dispatch(sendChatFail(messageData.message));
+          dispatch(sendChatFail(messageData?.message));
         }
       });
+  
+      // Wait for the throttling delay before resetting isThrottled
+      setTimeout(() => {
+        setIsThrottled(false); // Reset the throttling
+      }, throttlingDelay);
     } catch (error) {
       dispatch(sendChatFail(error.message));
     }
   };
-
+  
   useEffect(() => {
     if (socket) {
       socket.addEventListener("open", () => {
