@@ -4,11 +4,17 @@ import Table from "react-bootstrap/Table";
 import Sidebar from "../components/Sidebar";
 import Offcanvas from "../components/Offcanvas";
 import MetaData from "./MetaData";
+import { useSelector } from "react-redux";
 
 function Earnings() {
+  const { astrologer } = useSelector((state) => state.astroState);
+ // Assuming astrologer is an array of objects where each object has a property 'chatDetails' which is an array of objects, and each of these objects has a property 'sameUser' which is an array of objects containing 'chatTime'.
+
+
+
   return (
     <>
-        <MetaData title={'Astro5Star-Contributor'} />
+      <MetaData title={"Astro5Star-Contributor"} />
 
       <div id="fixedbar">
         <Sidebar />
@@ -41,6 +47,13 @@ function Earnings() {
               <option value="365">Daily</option>
             </select>
           </section>
+          <section className="totalEarning">
+            <div>
+              <h5>
+                this month payout <span> ₹{astrologer[0].balance}</span>{" "}
+              </h5>
+            </div>
+          </section>
           <section className="earnTable">
             <Table
               className="table-striped-columns table-striped-order-even"
@@ -48,23 +61,55 @@ function Earnings() {
               hover
               style={{ width: "100%" }}
             >
-              <thead class="table-dark">
+              <thead className="table-dark">
                 <tr style={{ height: "50px" }}>
+                  <th>S.No</th>
+                  <th>Time spent (mins)</th> 
+                  <th>Date</th>
                   <th>Month</th>
-                  <th>Time spent (hrs)</th>
                   <th>Amount (₹)</th>
                 </tr>
               </thead>
               <tbody className="table-group-divider">
-                {earnings.map((earn) => {
-                  return (
-                    <tr style={{ height: "50px" }}>
-                      <td>{earn.month}</td>
-                      <td>{earn.timeSpent}</td>
-                      <td>{earn.amount}</td>
-                    </tr>
-                  );
-                })}
+                {astrologer[0]?.payOutHistory?.map(
+                  (data,i) =>
+                  
+                      <tr key={data.id}>
+                      <td>
+                        {i+1}
+                      </td>
+                      <td>
+                        {data.totalChatTime}
+                      </td>
+                        <td>
+                          {" "}
+                          <p
+                            style={{ color: "black" }}
+                            className="con-lastMessage"
+                          >
+                            {new Date(data.date).toLocaleString("en-IN", {
+                              timeZone: "Asia/Kolkata",
+                              // hour12: true,
+                            })}
+                          </p>
+                        </td>
+                        <td>
+                          <p
+                            style={{ color: "black" }}
+                            className="con-lastMessage"
+                          >
+                            {new Date(data.date).toLocaleString("en-IN", {
+                              timeZone: "Asia/Kolkata",
+                              month: "long", // Display only the month name
+                            })}
+                          </p>
+                        </td>
+                        <td>
+                          <p className="con-timeStamp"  style={{color:"black"}}>{data?.amount}</p>
+                        </td>
+                      </tr>
+                    
+                )}
               </tbody>
             </Table>
           </section>

@@ -14,10 +14,11 @@ import astrologer from "../assests/astrologer.jpg"
 import welcome from "../assests/welcome.png"
 import { useRef, useEffect,useState } from "react";
 import { useSelector } from "react-redux"
-
-function Sidebar() {
+import { useCallback } from "react"
+function Sidebar({sideBarUsers}) {
     const { astrologer,token } = useSelector((state) => state.astroState);
-    const[user,setUser]= useState(null)
+  const [users, setUsers] = useState(null);
+
     function toggledropdown() {
         let content = document.querySelector(".drop-content")
         content.classList?.toggle("toggle-content")
@@ -40,11 +41,6 @@ function Sidebar() {
             closedropdown()
         }
     }
-
-
-    
-
-    
     useEffect(() => {
         document.addEventListener("click", handleDroptwo, true)
     }, [])
@@ -54,9 +50,62 @@ function Sidebar() {
         });
       
         console.log(response)
-       
-      
-    }
+ }
+
+    
+
+ async function getUser() {
+   try {
+     let response = await fetch(
+       `${process.env.REACT_APP_URL}/api/v1/fetch_chat`,
+       {
+         headers: {
+           "Content-Type": "application/json",
+           Authorization: `Bearer ${token}`,
+         },
+         method: "POST",
+         body: JSON.stringify({
+           id: astrologer[0]?._id,
+         }),
+       }
+     );
+ 
+     if (!response.ok) {
+       throw new Error("Failed to fetch user");
+     }
+ 
+     let data = await response.json();
+     setUsers(data?.chats);
+   } catch (error) {
+     console.error("Error fetching user:", error);
+   }
+ }
+ 
+ useEffect(() => {
+   getUser();
+ }, []);
+ 
+ useEffect(() => {
+   console.log("Users in Sidebar 1  :", users);
+ }, [users]);
+ 
+
+  useEffect(() => {
+    sideBarUsers(users); 
+    console.log(typeof sideBarUsers);
+    return () => {
+        console.log("Users in Sidebar:", users);
+
+    };
+  }, [sideBarUsers, users]);
+  
+
+  const sendUsersToChatBody = useCallback((users) => {
+    console.log("Users in Sidebar:", users);
+  }, []);
+
+
+    
     return (
         <>
             <aside id="side">
@@ -113,7 +162,7 @@ function Sidebar() {
                         {/* Earning */}
                         <div className="earning">
                             <PiWalletBold style={{ fontSize: "25px" }} />
-                            <span>₹45000</span>
+                            <span>₹{astrologer[0]?.balance}</span>
                         </div>
                         <IoMdNotificationsOutline style={{ fontSize: "25px" }} />
 

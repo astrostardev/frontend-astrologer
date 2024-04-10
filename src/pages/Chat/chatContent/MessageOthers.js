@@ -4,10 +4,14 @@ import { extractTime } from "../../../utils/extractTime";
 function MessageOthers({props,user}) {
   const formatedTime = extractTime(props?.props?.createdAt);
 
-const userName = user && user.length > 0 ? user[0]?.[0] : "";
-const name = userName && userName.participants && userName.participants.length > 0 ? userName.participants[0].name[0] : "";
+const userName = user && user.length > 0 ? user: "";
+console.log('userNmwe',userName);
 
-  return (
+const name =  userName[0]?.participants[0]?.name[0];
+
+console.log('userNmwa[9]',name);
+  
+return (
     <div
       style={{ animationDelay: `0.8s` }}
       className={`chat__item ${props.user ? props.user : ""}`}

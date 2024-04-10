@@ -37,7 +37,7 @@ function Sidebar({ latestMsg, time, user }) {
       <div className="sd-coversation">
         <ConversationItem
           props={user}
-          message={messagesArray ? messagesArray : recentMsg}
+          message={recentMsg}
           time={time}
         />
       </div>

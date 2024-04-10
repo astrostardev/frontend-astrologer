@@ -12,11 +12,10 @@ function ConversationItem({ props, message,time,onClick }) {
 
   return (
     <>
-      {props &&
-        props.map((data) =>
-          data.map((conversation) => (
+      {/* {props &&
+      props?.map((conversation) => (
             <motion.div
-              key={data._id}
+              key={conversation?._id}
               onClick={() =>
                 navigate(`chat_content/${conversation?.participants[0]?._id}`)
               }
@@ -38,7 +37,7 @@ function ConversationItem({ props, message,time,onClick }) {
               </div>
             </motion.div>
           ))
-        )}
+        } */}
     </>
   );
 }

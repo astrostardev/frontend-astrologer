@@ -5,8 +5,8 @@ import Earnings from "./pages/Earnings";
 import "bootstrap/dist/css/bootstrap.min.css";
 import "bootstrap/dist/js/bootstrap.js";
 import Settings from "./pages/Settings";
-import Chathistory from "./pages/ChatHistory";
-import Callhistory from "./pages/CallHistory";
+import Chathistory from "../src/pages/Histories/ChatHistory";
+import Callhistory from "../src/pages/Histories/CallHistory";
 import AstrologerLogin from "./pages/Login";
 import ViewAstroProfile from "./pages/ViewAstroProfile";
 import { HelmetProvider } from "react-helmet-async";
@@ -14,8 +14,14 @@ import ChatBody from "./pages/Chat/chatBody/ChatBody";
 import Welcome from "./pages/Chat/chatPages/Welcome";
 import ChatContent from "./pages/Chat/chatContent/ChatContent";
 import { useSelector } from "react-redux";
+import { useEffect,useState } from "react";
+import FullChatHistory from "./pages/Histories/FullChatHistory";
 function App(props) {
-  const { isAuthenticated } = useSelector((state) => state.astroState);
+  const { isAuthenticated,} = useSelector((state) => state.astroState);
+
+
+
+
   return (
     <div>
       <HelmetProvider>
@@ -41,6 +47,11 @@ function App(props) {
                   isAuthenticated ? <Chathistory /> : <Navigate to="/" />
                 }/>
               <Route
+                path="/full_chat_history/:id"
+                element={
+                  isAuthenticated ? <FullChatHistory /> : <Navigate to="/" />
+                }/>
+              <Route
                 path="/callhistory"
                 element={
                   isAuthenticated ? <Callhistory /> : <Navigate to="/" />
@@ -55,7 +66,7 @@ function App(props) {
               {/* chats */}
               <Route
                 path="/chats/:id"
-                element={isAuthenticated ? <ChatBody /> : <Navigate to="/" />}
+                element={isAuthenticated ? <ChatBody/> : <Navigate to="/" />}
               >
                 <Route
                   path="chat_content/:id"
@@ -75,5 +86,4 @@ function App(props) {
     </div>
   );
 }
-
 export default App;

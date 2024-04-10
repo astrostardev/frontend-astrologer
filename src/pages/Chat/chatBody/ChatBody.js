@@ -16,16 +16,18 @@ import {
 
 const ENDPOINT = process.env.REACT_APP_SOCKET_URL;
 
-function ChatBody() {
+ function ChatBody() {
   const { astrologer, token } = useSelector((state) => state.astroState);
   const { id } = useParams();
-  const splitId = id.split("+")[0].trim();
+  // const splitId =  id?.split("/")
   const [socket, setSocket] = useState(null);
   const [recentMessage, setAllMessages] = useState([]);
   const [users, setUsers] = useState(null);
   const dispatch = useDispatch();
-
-
+// useEffect(()=>{
+// setUsers(sideBarUsers)
+// console.log('chatbody Users',users);
+// },[])
   //initialising WebSocket
   useEffect(() => {
     const newSocket = new WebSocket(ENDPOINT);
@@ -54,6 +56,7 @@ function ChatBody() {
   //get messages
   useEffect(() => {
     const getChatMessages = async () => {
+
       try {
         dispatch(fetchChatRequest()); // Dispatch action to indicate message fetching has started
 
@@ -61,7 +64,7 @@ function ChatBody() {
         socket.send(
           JSON.stringify({
             type: "get messages",
-            room: splitId,
+            room: id ?  id :'',
             userId: astrologer[0]?._id,
           })
         );
@@ -69,6 +72,7 @@ function ChatBody() {
         dispatch(fetchChatFail(error.message));
       }
     };
+    console.log('idchatbody', id,astrologer[0]._id);
 
     const handleMessageEvent = (event) => {
       const messageData = JSON.parse(event.data);
@@ -91,7 +95,7 @@ function ChatBody() {
     if (socket) {
       socket.addEventListener("open", () => {
         console.log("WebSocket connection is open.");
-        console.log("paramsId", splitId);
+        console.log("paramsId", id);
         getChatMessages(); // Call the function to fetch chat messages
       });
 
@@ -110,44 +114,52 @@ function ChatBody() {
         socket.removeEventListener("message", handleMessageEvent);
       }
     };
-  }, [dispatch, socket, splitId, astrologer]);
+  }, [dispatch, socket, astrologer]);
 
-  // sendUserId();
+  // // get user who are intract with astrologer ();
+  // useEffect(() => {
+  //   getUser();
+  // }, []);
+  // async function getUser() {
+  //   try {
+  //     let response = await fetch(
+  //       `${process.env.REACT_APP_URL}/api/v1/fetch_chat/${astrologer[0]?._id}`,
+  //       {
+
+  //         headers: {
+  //           "Content-Type": "application/json",
+  //           Authorization: `Bearer ${token}`,
+  //         },
+  //         method: "GET",
+  //         // Assuming astrologerId is expected in the backend
+  //       }
+  //     );
+
+  //     if (!response.ok) {
+  //       throw new Error("Failed to fetch user");
+  //     }
+
+  //     let data = await response.json();
+  //     setUsers(data?.chats);
+
+  //     // Assuming data contains user information
+  //   } catch (error) {
+  //     console.error("Error fetching user:", error);
+  //   }
+  // }
+  const handleUsers = (sideBarUsers) => {
+    setUsers(sideBarUsers);
+  };
+  
   useEffect(() => {
-    getUser();
-  }, []);
-  async function getUser() {
-    try {
-      let response = await fetch(
-        `${process.env.REACT_APP_URL}/api/v1/fetch_chat/${astrologer[0]?._id}`,
-        {
-          headers: {
-            "Content-Type": "application/json",
-            Authorization: `Bearer ${token}`,
-          },
-          method: "GET",
-
-          // Assuming astrologerId is expected in the backend
-        }
-      );
-
-      if (!response.ok) {
-        throw new Error("Failed to fetch user");
-      }
-
-      let data = await response.json();
-      setUsers(data?.chats);
-
-      // Assuming data contains user information
-    } catch (error) {
-      console.error("Error fetching user:", error);
-    }
-  }
-
+    console.log('sideBarUsers from chatbody', users);
+  }, [users]);
+  
   return (
     <>
       <div id="fixedbar">
-        <AppSiderbar />
+
+        <AppSiderbar sideBarUsers={handleUsers}/>
       </div>
       <div id="offcanvas">
         <OffCanvasNav />

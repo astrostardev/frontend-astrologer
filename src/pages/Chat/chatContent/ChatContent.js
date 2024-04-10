@@ -18,14 +18,15 @@ import {
   sendChatSuccess,
 } from "../../../slice/conversationSlice";
 import { useDispatch } from "react-redux";
+import { clearURIParameters } from "../../../utility/ClearUrl";
 
-const ENDPOINT = process.env.REACT_APP_SOCKET_URL ;
+const ENDPOINT = process.env.REACT_APP_SOCKET_URL;
 
 function ChatContent({ userName }) {
   const { token, astrologer } = useSelector((state) => state.astroState);
   const [refresh, setRefresh] = useState(false);
   const { id } = useParams();
-  const splitId = id.split("+")[0].trim();
+  // const splitId = id.split("+")[0].trim();
   const [allMessages, setAllMessages] = useState(null);
   const [socket, setSocket] = useState(null);
   const [messageContent, setMessageContent] = useState("");
@@ -34,6 +35,13 @@ function ChatContent({ userName }) {
   const messagesEndRef = useRef();
   const dispatch = useDispatch();
 
+  console.log('splitId',id, 'astroId', astrologer[0]?._id);
+  
+  useEffect(() => {
+    return () => {
+      clearURIParameters();
+    };
+  }, []);
   //adding automating scroll bottom
   const scrollToBottom = () => {
     messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
@@ -74,7 +82,7 @@ function ChatContent({ userName }) {
         socket.send(
           JSON.stringify({
             type: "get messages",
-            room: splitId,
+            room: id,
             userId: astrologer[0]?._id,
           })
         );
@@ -121,30 +129,29 @@ function ChatContent({ userName }) {
         socket.removeEventListener("message", handleMessageEvent);
       }
     };
-  }, [dispatch, socket, splitId, astrologer]);
+  }, [dispatch, socket, id, astrologer]);
 
-
-  // send message function using throttling  
+  // send message function using throttling
   const sendMessage = async () => {
     try {
       if (isThrottled) {
         console.log("Message sending is throttled. Please wait.");
         return;
       }
-  
+
       setIsThrottled(true); // Throttle the function
       dispatch(sendChatRequest()); // Dispatch action to indicate message sending has started
-  
+
       // Emit a WebSocket message to send a new chat message
       socket.send(
         JSON.stringify({
           type: "new message",
-          room: splitId,
+          room: id,
           userId: astrologer[0]?._id,
           message: messageContent,
         })
       );
-  
+
       // Listen for WebSocket messages containing chat messages
       socket.addEventListener("message", (event) => {
         const messageData = JSON.parse(event.data);
@@ -155,7 +162,7 @@ function ChatContent({ userName }) {
           dispatch(sendChatFail(messageData?.message));
         }
       });
-  
+
       // Wait for the throttling delay before resetting isThrottled
       setTimeout(() => {
         setIsThrottled(false); // Reset the throttling
@@ -164,7 +171,7 @@ function ChatContent({ userName }) {
       dispatch(sendChatFail(error.message));
     }
   };
-  
+
   useEffect(() => {
     if (socket) {
       socket.addEventListener("open", () => {
@@ -183,7 +190,7 @@ function ChatContent({ userName }) {
     return () => {
       // Remove event listeners or perform any cleanup if needed
     };
-  }, [socket, splitId, astrologer]);
+  }, [socket, id, astrologer]);
 
   useEffect(() => {
     scrollToBottom();
@@ -210,23 +217,25 @@ function ChatContent({ userName }) {
           </div>
 
           <div className="content__body">
-            <div className="chat__items">
-              {allMessages?.map((message, index) => (
-                <React.Fragment key={`message_${index}`}>
-                  {message.senderId === astrologer[0]?._id ? (
-                    <MessageSelf props={message} key={index} />
-                  ) : (
-                    <MessageOthers
-                      props={message}
-                      key={index}
-                      user={userName}
-                    />
-                  )}
-                </React.Fragment>
-              ))}
-              <div ref={messagesEndRef} />
-            </div>
-          </div>
+  <div className="chat__items">
+    {allMessages?.map((message, index) => (
+      <React.Fragment key={`message_${index}`}>
+        {message.senderId === astrologer[0]?._id ? (
+          <MessageSelf props={message} key={index} />
+        ) : message.receiverId === astrologer[0]?._id ? (
+          <MessageOthers
+            props={message}
+            key={index}
+            user={userName}
+          />
+        ) : null}
+      </React.Fragment>
+    ))}
+    <div ref={messagesEndRef} />
+  </div>
+</div>
+
+
           <div className="content__footer">
             <div className="sendNewMessage">
               <IconButton>
