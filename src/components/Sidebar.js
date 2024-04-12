@@ -52,8 +52,6 @@ function Sidebar({sideBarUsers}) {
         console.log(response)
  }
 
-    
-
  async function getUser() {
    try {
      let response = await fetch(
@@ -85,24 +83,18 @@ function Sidebar({sideBarUsers}) {
    getUser();
  }, []);
  
- useEffect(() => {
-   console.log("Users in Sidebar 1  :", users);
- }, [users]);
- 
+//   useEffect(() => {
+//     sideBarUsers(users); 
+//     console.log(typeof sideBarUsers);
+//     return () => {
+//         console.log("Users in Sidebar:", users);
 
-  useEffect(() => {
-    sideBarUsers(users); 
-    console.log(typeof sideBarUsers);
-    return () => {
-        console.log("Users in Sidebar:", users);
-
-    };
-  }, [sideBarUsers, users]);
+//     };
+//   }, [sideBarUsers, users]);
   
-
-  const sendUsersToChatBody = useCallback((users) => {
-    console.log("Users in Sidebar:", users);
-  }, []);
+//   const sendUsersToChatBody = useCallback((users) => {
+//     console.log("Users in Sidebar:", users);
+//   }, []);
 
 
     
@@ -137,7 +129,7 @@ function Sidebar({sideBarUsers}) {
                             <span>Call</span>
                         </Link>
                     </div>
-                    <Link className="side-link" to={`/chats/${astrologer[0]?._id}`}>
+                    <Link className="side-link" to={`/chats`}>
                         <MdAddToQueue style={{ fontSize: "20px" }} />
                         <span>Chat requests</span>
                     </Link>

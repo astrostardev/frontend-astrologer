@@ -12,8 +12,8 @@ function ConversationItem({ props, message,time,onClick }) {
 
   return (
     <>
-      {/* {props &&
-      props?.map((conversation) => (
+      {props &&
+      props.map((conversation) => (
             <motion.div
               key={conversation?._id}
               onClick={() =>
@@ -37,7 +37,7 @@ function ConversationItem({ props, message,time,onClick }) {
               </div>
             </motion.div>
           ))
-        } */}
+        }
     </>
   );
 }

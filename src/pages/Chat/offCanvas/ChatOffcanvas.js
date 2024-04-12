@@ -19,7 +19,7 @@ function ChatOffcanvas({ latestMsg, time, user }) {
   const recentMsg = messagesArray ? messagesArray : latestMsg;
   const { astrologer, token } = useSelector((state) => state.astroState);
   const { id } = useParams();
-  const splitId = id.split("+")[0].trim();
+  // const splitId = id.split("+")[0].trim();
   const [showSidebar, setShowsidebar] = useState(true);
   const handleItemClick = () => {
     setShowsidebar(!showSidebar);

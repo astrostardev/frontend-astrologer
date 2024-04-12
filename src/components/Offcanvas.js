@@ -101,7 +101,7 @@ function Offcanvas() {
           </div>
           <Link
             className="side-link"
-            to={`/chats/${astrologer[0]?._id}`}
+            to={`/chats`}
             onClick={closeCanvas}
           >
             <MdAddToQueue style={{ fontSize: "20px" }} />

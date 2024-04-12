@@ -35,7 +35,6 @@ function ChatContent({ userName }) {
   const messagesEndRef = useRef();
   const dispatch = useDispatch();
 
-  console.log('splitId',id, 'astroId', astrologer[0]?._id);
   
   useEffect(() => {
     return () => {
@@ -73,64 +72,72 @@ function ChatContent({ userName }) {
   }, [astrologer]);
 
   //get messages
-  useEffect(() => {
-    const getChatMessages = async () => {
-      try {
-        dispatch(fetchChatRequest()); // Dispatch action to indicate message fetching has started
 
-        // Emit a WebSocket message to request chat messages
-        socket.send(
-          JSON.stringify({
-            type: "get messages",
-            room: id,
-            userId: astrologer[0]?._id,
-          })
-        );
-      } catch (error) {
-        dispatch(fetchChatFail(error.message));
-      }
-    };
 
-    const handleMessageEvent = (event) => {
-      const messageData = JSON.parse(event.data);
-      if (messageData.type === "messages") {
-        const messages = dispatch(fetchChatSuccess(messageData.messages));
 
-        setAllMessages(messages.payload); // Dispatch action to update messages in the state
-      } else if (messageData.type === "new message") {
-        const messages = dispatch(
-          fetchChatSuccess((prevMessage = []) => [...prevMessage, messageData])
-        ); // Dispatch action with messageData as payload
+var getChatMessages = async () => {
+  try {
+    dispatch(fetchChatRequest()); // Dispatch action to indicate message fetching has started
 
-        setAllMessages(messages.payload); // Dispatch action to update messages in the state
-      } else if (messageData.type === "error") {
-        dispatch(fetchChatFail(messageData.message));
-      }
-    };
+    // Emit a WebSocket message to request chat messages
+    socket.send(
+      JSON.stringify({
+        type: "get messages",
+        room:id,
+        userId: astrologer[0]?._id,
+      })
+    );
+  } catch (error) {
+    dispatch(fetchChatFail(error.message));
+  }
+};   
+  
+useEffect(() => {                                                                                        
+  var handleMessageEvent = (event) => {
+    const messageData = JSON.parse(event.data);
+    if (messageData.type === "messages") {
+      const messages = dispatch(fetchChatSuccess(messageData.messages));
+      setAllMessages(messages.payload);
+    
+      // Dispatch action to update messages in the state
+    } else if (messageData.type === "new message") {
+      const messages = dispatch(
+        fetchChatSuccess((prevMessage = []) => [...prevMessage, messageData])
+      ); // Dispatch action with messageData as payload
 
-    if (socket) {
-      socket.addEventListener("open", () => {
-        console.log("WebSocket connection is open.");
-        getChatMessages(); // Call the function to fetch chat messages
-      });
-
-      socket.addEventListener("message", handleMessageEvent);
-
-      socket.addEventListener("close", () => {
-        console.log("WebSocket connection is closed.");
-      });
-    } else {
-      console.error("WebSocket connection is not open.");
+      setAllMessages(messages.payload); // Dispatch action to update messages in the state
     }
+  };
 
-    // Cleanup function
-    return () => {
-      if (socket) {
-        socket.removeEventListener("message", handleMessageEvent);
-      }
-    };
-  }, [dispatch, socket, id, astrologer]);
 
+
+  if (socket) {
+    socket.addEventListener("open", () => {
+      console.log("WebSocket connection is open.");
+      getChatMessages(); // Call the function to fetch chat messages
+    });
+
+    socket.addEventListener("message", handleMessageEvent);
+
+    socket.addEventListener("close", () => {
+      console.log("WebSocket connection is closed.");
+    });
+  } else {
+    console.error("WebSocket connection is not open.");
+  }
+
+  // Cleanup function
+  return () => {
+    if (socket) {
+      socket.removeEventListener("message", handleMessageEvent);
+    }
+  };
+}, [dispatch, socket, id, astrologer]);
+
+useEffect(()=>
+{
+getChatMessages()
+},[id])
   // send message function using throttling
   const sendMessage = async () => {
     try {

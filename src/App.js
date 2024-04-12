@@ -65,7 +65,8 @@ function App(props) {
               />
               {/* chats */}
               <Route
-                path="/chats/:id"
+                path="/chats"
+                
                 element={isAuthenticated ? <ChatBody/> : <Navigate to="/" />}
               >
                 <Route
