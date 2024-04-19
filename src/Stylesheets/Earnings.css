@@ -19,3 +19,18 @@
     padding: 20px;
     text-align: center;
 }
+.totalEarning{
+    display: flex;
+    margin: 0;
+    position: relative;
+    background:white;
+    padding:10px;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    text-transform:capitalize !important;
+
+}
+.totalEarning > h5{
+    text-transform:uppercase !important;
+}

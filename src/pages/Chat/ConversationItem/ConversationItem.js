@@ -3,7 +3,7 @@ import "./conversationitem.css";
 import { useNavigate, useParams } from "react-router-dom";
 import { motion } from "framer-motion";
 import { extractTime } from "../../../utils/extractTime";
-
+import { FaEyeSlash } from "react-icons/fa";
 function ConversationItem({ props, message,time }) {
   const {id}=useParams()
   const navigate = useNavigate();
@@ -26,10 +26,12 @@ function ConversationItem({ props, message,time }) {
               <div className="conversation-container">
                 <p className="con-icon">
                   {conversation?.participants[0]?.name[0]}
+
                 </p>
- 
                 <p className="con-title">
                   {conversation?.participants[0]?.name}
+                <FaEyeSlash  style={{marginLeft:"2rem", color:"red"}}/>
+
                 </p>
                 <p className="con-lastMessage">{conversation?.participants[0]?._id === id ? message :''}</p>
                 <p className='con-timeStamp'>{conversation?.participants[0]?._id === id ? formatedTime :''}</p>

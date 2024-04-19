@@ -9,6 +9,7 @@ import { AnimatePresence } from "framer-motion";
 import { motion } from "framer-motion";
 import { useParams } from "react-router-dom";
 import { useSelector } from "react-redux";
+import { BiSolidMicrophone } from "react-icons/bi";
 import {
   fetchChatFail,
   fetchChatRequest,
@@ -29,18 +30,15 @@ function ChatContent({ userName }) {
   // const splitId = id.split("+")[0].trim();
   const [allMessages, setAllMessages] = useState(null);
   const [socket, setSocket] = useState(null);
+  const [streaming, setStreaming] = useState(false);
+  const [mediaRecorder, setMediaRecorder] = useState(null);
+  const [audioData, setAudioData] = useState(null);
   const [messageContent, setMessageContent] = useState("");
   const [isThrottled, setIsThrottled] = useState(false);
   const throttlingDelay = 1000;
   const messagesEndRef = useRef();
   const dispatch = useDispatch();
 
-  
-  useEffect(() => {
-    return () => {
-      clearURIParameters();
-    };
-  }, []);
   //adding automating scroll bottom
   const scrollToBottom = () => {
     messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
@@ -72,73 +70,125 @@ function ChatContent({ userName }) {
   }, [astrologer]);
 
   //get messages
+  const getChatMessages = async () => {
+    try {
+      dispatch(fetchChatRequest()); // Dispatch action to indicate message fetching has started
 
-
-
-var getChatMessages = async () => {
-  try {
-    dispatch(fetchChatRequest()); // Dispatch action to indicate message fetching has started
-
-    // Emit a WebSocket message to request chat messages
-    socket.send(
-      JSON.stringify({
-        type: "get messages",
-        room:id,
-        userId: astrologer[0]?._id,
-      })
-    );
-  } catch (error) {
-    dispatch(fetchChatFail(error.message));
-  }
-};   
-  
-useEffect(() => {                                                                                        
-  var handleMessageEvent = (event) => {
-    const messageData = JSON.parse(event.data);
-    if (messageData.type === "messages") {
-      const messages = dispatch(fetchChatSuccess(messageData.messages));
-      setAllMessages(messages.payload);
-    
-      // Dispatch action to update messages in the state
-    } else if (messageData.type === "new message") {
-      const messages = dispatch(
-        fetchChatSuccess((prevMessage = []) => [...prevMessage, messageData])
-      ); // Dispatch action with messageData as payload
-
-      setAllMessages(messages.payload); // Dispatch action to update messages in the state
+      // Emit a WebSocket message to request chat messages
+      socket.send(
+        JSON.stringify({
+          type: "get messages",
+          room: id,
+          userId: astrologer[0]?._id,
+        })
+      );
+    } catch (error) {
+      dispatch(fetchChatFail(error.message));
     }
   };
+  useEffect(() => {
+    const handleMessageEvent = (event) => {
+      const messageData = JSON.parse(event.data);
+      if (messageData.type === "messages") {
+        const messages = dispatch(fetchChatSuccess(messageData.messages));
+        setAllMessages(messages.payload);
+        console.log("cureent msg", messages.payload);
+        // Dispatch action to update messages in the state
+      } else if (messageData.type === "new message") {
+        const messages = dispatch(
+          fetchChatSuccess((prevMessage = []) => [...prevMessage, messageData])
+        ); // Dispatch action with messageData as payload
 
+        setAllMessages(messages.payload); // Dispatch action to update messages in the state
+      }
+    };
 
-
-  if (socket) {
-    socket.addEventListener("open", () => {
-      console.log("WebSocket connection is open.");
-      getChatMessages(); // Call the function to fetch chat messages
-    });
-
-    socket.addEventListener("message", handleMessageEvent);
-
-    socket.addEventListener("close", () => {
-      console.log("WebSocket connection is closed.");
-    });
-  } else {
-    console.error("WebSocket connection is not open.");
-  }
-
-  // Cleanup function
-  return () => {
     if (socket) {
-      socket.removeEventListener("message", handleMessageEvent);
+      socket.addEventListener("open", () => {
+        console.log("WebSocket connection is open.");
+        getChatMessages(); // Call the function to fetch chat messages
+      });
+
+      socket.addEventListener("message", handleMessageEvent);
+
+      socket.addEventListener("close", () => {
+        console.log("WebSocket connection is closed.");
+      });
+    } else {
+      console.error("WebSocket connection is not open.");
+    }
+
+    // Cleanup function
+    return () => {
+      if (socket) {
+        socket.removeEventListener("message", handleMessageEvent);
+      }
+    };
+  }, [dispatch, socket, id, astrologer]);
+
+  useEffect(() => {
+    getChatMessages();
+  }, [id]);
+
+  useEffect(() => {
+    scrollToBottom();
+    console.log("allmessages", allMessages);
+  }, [allMessages, audioData]);
+  // Function to start streaming audio
+
+  const startStreaming = () => {
+    console.log("startStreaming called");
+    console.log("socket:", socket);
+
+    if (socket && socket.readyState === WebSocket.OPEN) {
+      console.log("WebSocket connection is open. Starting streaming.");
+
+      navigator.mediaDevices
+        .getUserMedia({ audio: true })
+        .then((stream) => {
+          console.log("getUserMedia success");
+          const mediaRecorder = new MediaRecorder(stream);
+          mediaRecorder.ondataavailable = (event) => {
+            const audioBlob = new Blob([event.data]);
+            const reader = new FileReader();
+            reader.onload = () => {
+              const audioData = {
+                audio: reader.result,
+              };
+              setAudioData(audioData);
+
+              socket.send(
+                JSON.stringify({
+                  type: "new message",
+                  room: id,
+                  userId: astrologer[0]?._id,
+                  audio: audioData, // Pass the audio message here
+                })
+              );
+            };
+            reader.readAsDataURL(audioBlob);
+          };
+          mediaRecorder.start();
+          // setStreaming(true);
+           setMediaRecorder(mediaRecorder);
+        })
+        .catch((error) => {
+          console.error("Error accessing microphone", error);
+        });
+    } else {
+      console.error("Socket connection is not open. Cannot start streaming.");
     }
   };
-}, [dispatch, socket, id, astrologer]);
 
-useEffect(()=>
-{
-getChatMessages()
-},[id])
-  // send message function using throttling
+  // Function to stop streaming audio
+  const stopStreaming = () => {
+    if (mediaRecorder) {
+      mediaRecorder.stop();
+      // setStreaming(false);
+      // setMediaRecorder(null);
+    }
+  };
+
   const sendMessage = async () => {
     try {
       if (isThrottled) {
@@ -156,19 +206,9 @@ getChatMessages()
           room: id,
           userId: astrologer[0]?._id,
           message: messageContent,
+          // Pass the audio data here
         })
       );
-
-      // Listen for WebSocket messages containing chat messages
-      socket.addEventListener("message", (event) => {
-        const messageData = JSON.parse(event.data);
-        if (messageData.type === "new message") {
-          // Dispatch action to update messages in the state
-          dispatch(sendChatSuccess(messageData));
-        } else if (messageData.type === "error") {
-          dispatch(sendChatFail(messageData?.message));
-        }
-      });
 
       // Wait for the throttling delay before resetting isThrottled
       setTimeout(() => {
@@ -178,6 +218,8 @@ getChatMessages()
       dispatch(sendChatFail(error.message));
     }
   };
+
+  // send message function using throttling
 
   useEffect(() => {
     if (socket) {
@@ -198,10 +240,6 @@ getChatMessages()
       // Remove event listeners or perform any cleanup if needed
     };
   }, [socket, id, astrologer]);
-
-  useEffect(() => {
-    scrollToBottom();
-  }, [allMessages]);
 
   return (
     <div className="main__chatcontent">
@@ -224,24 +262,31 @@ getChatMessages()
           </div>
 
           <div className="content__body">
-  <div className="chat__items">
-    {allMessages?.map((message, index) => (
-      <React.Fragment key={`message_${index}`}>
-        {message.senderId === astrologer[0]?._id ? (
-          <MessageSelf props={message} key={index} />
-        ) : message.receiverId === astrologer[0]?._id ? (
-          <MessageOthers
-            props={message}
-            key={index}
-            user={userName}
-          />
-        ) : null}
-      </React.Fragment>
-    ))}
-    <div ref={messagesEndRef} />
-  </div>
-</div>
+            <div className="chat__items">
+              {allMessages?.map((message, index) => (
+                <React.Fragment key={`message_${index}`}>
+                  {message.senderId === astrologer[0]?._id ? (
+                    <MessageSelf
+                      props={message}
+                      key={index}
+                      messageId={`self_msg_${index}`} // Unique message ID
+                      audioId={`audio_${index}`} // Unique audio element ID
+                    />
+                  ) : message.receiverId === astrologer[0]?._id ? (
+                    <MessageOthers
+                      props={message}
+                      key={index}
+                      user={userName}
+                      messageId={`other_msg_${index}`} // Unique message ID
+                      audioId={`audio_${index}`} // Unique audio element ID
+                    />
+                  ) : null}
+                </React.Fragment>
+              ))}
 
+              <div ref={messagesEndRef} />
+            </div>
+          </div>
 
           <div className="content__footer">
             <div className="sendNewMessage">
@@ -274,6 +319,16 @@ getChatMessages()
                 id="sendMsgBtn"
               >
                 <AiOutlineSend />
+              </button>
+              <button className="btnSendMsg" id="sendMsgBtn">
+                {streaming ? (
+                  <BiSolidMicrophone onMouseUp={stopStreaming} />
+                ) : (
+                  <BiSolidMicrophone
+                    className="btnSendMsg"
+                    onMouseDown={startStreaming} // Removed parentheses to prevent immediate invocation
+                  />
+                )}
               </button>
             </div>
           </div>

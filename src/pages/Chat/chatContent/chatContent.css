@@ -119,18 +119,34 @@
   border-radius: 10px 10px 0px 10px;
   max-width: 50%;
 }
-
+#chat__item__audio{
+/* background-color:#ffcb11!important; */
+  display: grid;
+  position: relative;
+  padding: 5px 60px 5px 10px;
+  border-radius: 10px 10px 0px 10px;
+  max-width: 50%;
+}
 .msg-title {
   grid-area: 1/2;
   color: rgba(0, 0, 0, 0, 0.54);
   font-size: 12px;
 }
 
+.chat__audio_time {
+  font-size: 0.65rem;
+  position: absolute;
+  right: 0.3rem;
+  color:black;
+  top: 2.5rem;
+  /* color:black; */
+}
 .chat__time {
   font-size: 0.65rem;
   position: absolute;
   right: 5px;
   top: 23px;
+  /* color:black; */
   color: rgba(0, 0, 0, 0, 0.54);
 }
 #other_user {
@@ -197,6 +213,7 @@
   background-color: #ffcb11;
   color: #fff;
   font-size: 20px;
+  margin-right:10px;
 }
 @media screen and (max-width: 500px) {
   .main__chatcontent {
