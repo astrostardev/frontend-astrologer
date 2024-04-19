@@ -156,20 +156,24 @@ function ChatContent({ userName }) {
                 audio: reader.result,
               };
               setAudioData(audioData);
-
+              setIsThrottled(true); // Throttle the function
+              dispatch(sendChatRequest()); // Dispatch action to indicate message sending has started
+              console.log('audioData',audioData);
+             
               socket.send(
                 JSON.stringify({
-                  type: "new message",
+                  type: "new audio",
                   room: id,
                   userId: astrologer[0]?._id,
-                  audio: audioData, // Pass the audio message here
+                  audio: audioData,
+                  // Pass the audio data here
                 })
               );
             };
             reader.readAsDataURL(audioBlob);
           };
           mediaRecorder.start();
-          // setStreaming(true);
+           setStreaming(true);
            setMediaRecorder(mediaRecorder);
         })
         .catch((error) => {
@@ -184,8 +188,8 @@ function ChatContent({ userName }) {
   const stopStreaming = () => {
     if (mediaRecorder) {
       mediaRecorder.stop();
-      // setStreaming(false);
-      // setMediaRecorder(null);
+       setStreaming(false);
+       setMediaRecorder(null);
     }
   };
 
