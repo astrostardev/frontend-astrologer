@@ -10,16 +10,15 @@ import { motion } from "framer-motion";
 import { useParams } from "react-router-dom";
 import { useSelector } from "react-redux";
 import { BiSolidMicrophone } from "react-icons/bi";
+import { AudioProvider } from "../../../context/AudioContext";
 import {
   fetchChatFail,
   fetchChatRequest,
   fetchChatSuccess,
   sendChatFail,
   sendChatRequest,
-  sendChatSuccess,
 } from "../../../slice/conversationSlice";
 import { useDispatch } from "react-redux";
-import { clearURIParameters } from "../../../utility/ClearUrl";
 
 const ENDPOINT = process.env.REACT_APP_SOCKET_URL;
 
@@ -140,47 +139,76 @@ function ChatContent({ userName }) {
     console.log("startStreaming called");
     console.log("socket:", socket);
 
-    if (socket && socket.readyState === WebSocket.OPEN) {
-      console.log("WebSocket connection is open. Starting streaming.");
+    try {
+      if (socket && socket.readyState === WebSocket.OPEN) {
+        console.log("WebSocket connection is open. Starting streaming.");
 
-      navigator.mediaDevices
-        .getUserMedia({ audio: true })
-        .then((stream) => {
-          console.log("getUserMedia success");
-          const mediaRecorder = new MediaRecorder(stream);
-          mediaRecorder.ondataavailable = (event) => {
-            const audioBlob = new Blob([event.data]);
-            const reader = new FileReader();
-            reader.onload = () => {
-              const audioData = {
-                audio: reader.result,
+        navigator.mediaDevices
+          .getUserMedia({ audio: true })
+          .then((stream) => {
+            console.log("getUserMedia success");
+            const mediaRecorder = new MediaRecorder(stream);
+
+            mediaRecorder.ondataavailable = (event) => {
+              const audioBlob = new Blob([event.data], { type: "audio/webm" });
+              const reader = new FileReader();
+
+              reader.onload = async () => {
+                try {
+                  const base64Data = reader.result; // Data URL including MIME type and base64-encoded data
+                  const formData = new FormData();
+
+                  // Add metadata and the audio file to the form
+                  formData.append("from", astrologer[0]._id);
+                  formData.append("to", id);
+                  formData.append("audio", audioBlob, "audio_message.webm");
+
+                  const response = await fetch(
+                    "http://localhost:8001/api/v1/message/send/audio",
+                    {
+                      method: "POST",
+                      // Don't set Content-Type for FormData; let the browser set it
+                      body: formData,
+                    }
+                  );
+
+                  if (!response.ok) {
+                    throw new Error(
+                      `Failed to upload audio: ${response.statusText}`
+                    );
+                  }
+
+                  console.log("Audio sent successfully");
+
+                  // Send data via WebSocket
+                  socket.send(
+                    JSON.stringify({
+                      type: "new audio",
+                      room: id,
+                      userId: astrologer[0]?._id,
+                      audio: base64Data, // Sending the base64-encoded data URL
+                    })
+                  );
+                } catch (error) {
+                  console.error("Error during file read and fetch:", error);
+                }
               };
-              setAudioData(audioData);
-              setIsThrottled(true); // Throttle the function
-              dispatch(sendChatRequest()); // Dispatch action to indicate message sending has started
-              console.log('audioData',audioData);
-             
-              socket.send(
-                JSON.stringify({
-                  type: "new audio",
-                  room: id,
-                  userId: astrologer[0]?._id,
-                  audio: audioData,
-                  // Pass the audio data here
-                })
-              );
+
+              reader.readAsDataURL(audioBlob); // Convert Blob to Data URL
             };
-            reader.readAsDataURL(audioBlob);
-          };
-          mediaRecorder.start();
-           setStreaming(true);
-           setMediaRecorder(mediaRecorder);
-        })
-        .catch((error) => {
-          console.error("Error accessing microphone", error);
-        });
-    } else {
-      console.error("Socket connection is not open. Cannot start streaming.");
+
+            mediaRecorder.start();
+            setStreaming(true);
+            setMediaRecorder(mediaRecorder);
+          })
+          .catch((error) => {
+            console.error("Error accessing microphone", error);
+          });
+      } else {
+        console.error("Socket connection is not open.");
+      }
+    } catch (error) {
+      console.error("Error during audio streaming:", error);
     }
   };
 
@@ -188,8 +216,8 @@ function ChatContent({ userName }) {
   const stopStreaming = () => {
     if (mediaRecorder) {
       mediaRecorder.stop();
-       setStreaming(false);
-       setMediaRecorder(null);
+      setStreaming(false);
+      setMediaRecorder(null);
     }
   };
 
@@ -267,26 +295,30 @@ function ChatContent({ userName }) {
 
           <div className="content__body">
             <div className="chat__items">
-              {allMessages?.map((message, index) => (
-                <React.Fragment key={`message_${index}`}>
-                  {message.senderId === astrologer[0]?._id ? (
-                    <MessageSelf
-                      props={message}
-                      key={index}
-                      messageId={`self_msg_${index}`} // Unique message ID
-                      audioId={`audio_${index}`} // Unique audio element ID
-                    />
-                  ) : message.receiverId === astrologer[0]?._id ? (
-                    <MessageOthers
-                      props={message}
-                      key={index}
-                      user={userName}
-                      messageId={`other_msg_${index}`} // Unique message ID
-                      audioId={`audio_${index}`} // Unique audio element ID
-                    />
-                  ) : null}
-                </React.Fragment>
-              ))}
+              <AudioProvider>
+                {allMessages?.map((message, index) => (
+                  <React.Fragment key={`message_${index}`}>
+                    {message.senderId === astrologer[0]?._id ? (
+                      <MessageSelf
+                        props={message}
+                        audio={message.audio}
+                        key={index}
+                        messageId={`self_msg_${index}`} // Unique message ID
+                        audioId={`audio_${index}`} // Unique audio element ID
+                      />
+                    ) : message.receiverId === astrologer[0]?._id ? (
+                      <MessageOthers
+                        props={message}
+                        audio={message.audio}
+                        key={index}
+                        user={userName}
+                        messageId={`other_msg_${index}`} // Unique message ID
+                        audioId={`audio_${index}`} // Unique audio element ID
+                      />
+                    ) : null}
+                  </React.Fragment>
+                ))}
+              </AudioProvider>
 
               <div ref={messagesEndRef} />
             </div>

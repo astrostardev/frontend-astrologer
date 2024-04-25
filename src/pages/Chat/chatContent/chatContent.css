@@ -141,6 +141,13 @@
   top: 2.5rem;
   /* color:black; */
 }
+.chat__audio_time{
+  font-size: 0.65rem;
+  position: absolute;
+  color:black;
+  top: 2.5rem;
+  left:16rem;
+}
 .chat__time {
   font-size: 0.65rem;
   position: absolute;
@@ -148,6 +155,15 @@
   top: 23px;
   /* color:black; */
   color: rgba(0, 0, 0, 0, 0.54);
+}
+
+.chat__audio_time_other{
+  font-size: 0.65rem;
+  position: absolute;
+  color:black;
+  top: 2.5rem;
+  left:17.6rem;
+  grid-area:1/2/2/4;
 }
 #other_user {
   margin-top: 10px;

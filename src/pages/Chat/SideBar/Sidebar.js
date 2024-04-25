@@ -9,8 +9,21 @@ function Sidebar({ latestMsg, time, user }) {
   const messagesArray = useSelector(
     (state) => state?.conversationState?.messages?.message
   );
+  const audiomessagesArray = useSelector(
+    (state) => state?.conversationState?.messages?.message
+  );
+  
   const { astrologer } = useSelector((state) => state.astroState);
-  const recentMsg = messagesArray ? messagesArray : latestMsg;
+let recentMsg
+let recentAudio
+if (messagesArray) {
+  recentMsg = messagesArray;
+} else if (audiomessagesArray) {
+  recentAudio  = audiomessagesArray;
+} else {
+  recentMsg = latestMsg; // Assuming `latestMsg` is a valid variable in this context
+}
+
 
   return (
     <div className="sidebar_container">
@@ -38,6 +51,7 @@ function Sidebar({ latestMsg, time, user }) {
         <ConversationItem
           props={user}
           message={recentMsg}
+          audio={recentAudio}
           time={time}
         />
       </div>
