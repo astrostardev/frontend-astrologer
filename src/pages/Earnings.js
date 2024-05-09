@@ -4,13 +4,67 @@ import Table from "react-bootstrap/Table";
 import Sidebar from "../components/Sidebar";
 import Offcanvas from "../components/Offcanvas";
 import MetaData from "./MetaData";
-import { useSelector } from "react-redux";
+import { useEffect,useState } from "react";
+import { useSelector,useDispatch } from "react-redux";
+import {
+  fetchChatFail,
+  fetchChatRequest,
+  fetchChatSuccess,
+} from "../slice/conversationSlice";
+const ENDPOINT = process.env.REACT_APP_SOCKET_URL;
 
 function Earnings() {
   const { astrologer } = useSelector((state) => state.astroState);
  // Assuming astrologer is an array of objects where each object has a property 'chatDetails' which is an array of objects, and each of these objects has a property 'sameUser' which is an array of objects containing 'chatTime'.
 
+ const [incomingCall, setIncomingCall] = useState(null);
+ const [socket, setSocket] = useState(null);
+ const dispatch = useDispatch()
+ 
+ useEffect(() => {
+   const newSocket = new WebSocket(ENDPOINT);
 
+   newSocket.onopen = () => {
+     console.log("WebSocket is open");
+     const setupMessage = { type: "setup", userId: astrologer[0]?._id };
+     newSocket.send(JSON.stringify(setupMessage));
+     dispatch(fetchChatRequest()); // Fetch chat messages on open
+   };
+
+   newSocket.onmessage = (message) => {
+     try {
+       const data = JSON.parse(message.data);
+       if (data.type === 'call-notification') {
+         setIncomingCall(data.userId); // Handle incoming call
+       }
+     } catch (error) {
+       console.error("Error processing WebSocket message:", error);
+     }
+   };
+
+   newSocket.onclose = () => {
+     console.log("Disconnected from WebSocket server");
+   };
+
+   newSocket.onerror = (error) => {
+     console.error("WebSocket error:", error);
+   };
+
+
+   setSocket(newSocket);
+
+   return () => {
+     newSocket.close(); // Ensure proper cleanup
+   };
+ }, [ENDPOINT, astrologer]);
+
+ useEffect(() => {
+   if (incomingCall) {
+     // Trigger an alert when an incoming call is detected
+     window.alert(`Incoming call from user: ${incomingCall}`);
+   }
+ }, [incomingCall]);
+ 
 
   return (
     <>

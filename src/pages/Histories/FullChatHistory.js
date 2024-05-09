@@ -3,14 +3,71 @@ import Table from "react-bootstrap/Table";
 import Sidebar  from "../../components/Sidebar";
 import OffCanvasNav from "../../components/Offcanvas";
 import MetaData from "../../pages/MetaData";
-import { useState } from "react";
-import { useSelector } from "react-redux";
 import { extractTime } from "../../utils/extractTime";
 import { useParams } from "react-router-dom";
+
+import { useEffect,useState } from "react";
+import { useSelector,useDispatch } from "react-redux";
+import {
+  fetchChatFail,
+  fetchChatRequest,
+  fetchChatSuccess,
+} from "../../slice/conversationSlice";
+const ENDPOINT = process.env.REACT_APP_SOCKET_URL;
 function FullChatHistory() {
   const {astrologer } = useSelector((state) => state.astroState);
   const [chatHistory, setChatHistory] = useState(astrologer[0]?.chatDetails);
   const { id } = useParams();
+
+
+  //call Pop
+const [incomingCall, setIncomingCall] = useState(null);
+const [socket, setSocket] = useState(null);
+const dispatch = useDispatch();
+
+useEffect(() => {
+  const newSocket = new WebSocket(ENDPOINT);
+
+  newSocket.onopen = () => {
+    console.log("WebSocket is open");
+    const setupMessage = { type: "setup", userId: astrologer[0]?._id };
+    newSocket.send(JSON.stringify(setupMessage));
+    dispatch(fetchChatRequest()); // Fetch chat messages on open
+  };
+
+  newSocket.onmessage = (message) => {
+    try {
+      const data = JSON.parse(message.data);
+      if (data.type === 'call-notification') {
+        setIncomingCall(data.userId); // Handle incoming call
+      }
+    } catch (error) {
+      console.error("Error processing WebSocket message:", error);
+    }
+  };
+
+  newSocket.onclose = () => {
+    console.log("Disconnected from WebSocket server");
+  };
+
+  newSocket.onerror = (error) => {
+    console.error("WebSocket error:", error);
+  };
+
+
+  setSocket(newSocket);
+
+  return () => {
+    newSocket.close(); // Ensure proper cleanup
+  };
+}, [ENDPOINT, astrologer]);
+
+useEffect(() => {
+  if (incomingCall) {
+    // Trigger an alert when an incoming call is detected
+    window.alert(`Incoming call from user: ${incomingCall}`);
+  }
+}, [incomingCall]);
   return (
     <div>
       <MetaData title={"Astro5Star-ChatHistory"} />

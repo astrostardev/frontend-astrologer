@@ -4,8 +4,8 @@ import earning from "../assests/earning.png";
 import { BsArrowUpShort, BsArrowDownShort } from "react-icons/bs";
 import "../Stylesheets/Dashboard.css";
 import MetaData from "./MetaData";
-import { useState } from "react";
-import { useSelector } from "react-redux";
+import { useState,useEffect } from "react";
+import { useDispatch, useSelector } from "react-redux";
 import {
   Chart as ChartJS,
   Tooltip,
@@ -19,10 +19,64 @@ import { alpha, styled } from "@mui/material/styles";
 import Switch from "@mui/material/Switch";
 import Sidebar from "../components/Sidebar";
 import Offcanvas from "../components/Offcanvas";
-
+import {
+  fetchChatFail,
+  fetchChatRequest,
+  fetchChatSuccess,
+} from "../slice/conversationSlice";
 ChartJS.register(Tooltip, BarElement, CategoryScale, LinearScale);
+const ENDPOINT = process.env.REACT_APP_SOCKET_URL;
 
 function Dashboard() {
+  const [incomingCall, setIncomingCall] = useState(null);
+  const [socket, setSocket] = useState(null);
+  const dispatch = useDispatch()
+  const { astrologer, token } = useSelector((state) => state.astroState);
+  
+  useEffect(() => {
+    const newSocket = new WebSocket(ENDPOINT);
+
+    newSocket.onopen = () => {
+      console.log("WebSocket is open");
+      const setupMessage = { type: "setup", userId: astrologer[0]?._id };
+      newSocket.send(JSON.stringify(setupMessage));
+      dispatch(fetchChatRequest()); // Fetch chat messages on open
+    };
+
+    newSocket.onmessage = (message) => {
+      try {
+        const data = JSON.parse(message.data);
+        if (data.type === 'call-notification') {
+          setIncomingCall(data.userId); // Handle incoming call
+        }
+      } catch (error) {
+        console.error("Error processing WebSocket message:", error);
+      }
+    };
+
+    newSocket.onclose = () => {
+      console.log("Disconnected from WebSocket server");
+    };
+
+    newSocket.onerror = (error) => {
+      console.error("WebSocket error:", error);
+    };
+
+
+    setSocket(newSocket);
+
+    return () => {
+      newSocket.close(); // Ensure proper cleanup
+    };
+  }, [ENDPOINT, astrologer]);
+
+  useEffect(() => {
+    if (incomingCall) {
+      // Trigger an alert when an incoming call is detected
+      window.alert(`Incoming call from user:" " " " ${incomingCall}`);
+    }
+  }, [incomingCall]);
+
   const barData = {
     labels: earnings.map((earn) => earn.month),
     datasets: [
@@ -98,7 +152,6 @@ function Dashboard() {
   }));
 
   const label = { inputProps: { "aria-label": "Color switch demo" } };
-  const { astrologer = [] } = useSelector((state) => state.astroState);
 
   const [voiceCallEnabled, setVoiceCallEnabled] = useState(
     astrologer[0]?.callAvailable
@@ -121,6 +174,9 @@ function Dashboard() {
         <Offcanvas />
       </div>
       <div className="infoContainer">
+   
+     
+
         <h4>Your Dashboard</h4>
         <div
           style={{
