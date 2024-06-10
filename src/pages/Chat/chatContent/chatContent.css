@@ -115,18 +115,18 @@
   color: #fff;
   display: grid;
   position: relative;
-  padding: 5px 30px 5px 10px;
+  padding: 5px 30px 10px 20px;
   border-radius: 10px 10px 0px 10px;
   max-width: 50%;
 }
-#chat__item__audio{
-/* background-color:#ffcb11!important; */
+/* #chat__item__audio{
+background-color:#ffcb11!important;
   display: grid;
   position: relative;
   padding: 5px 60px 5px 10px;
   border-radius: 10px 10px 0px 10px;
   max-width: 50%;
-}
+} */
 .msg-title {
   grid-area: 1/2;
   color: rgba(0, 0, 0, 0, 0.54);
@@ -136,17 +136,21 @@
 .chat__audio_time {
   font-size: 0.65rem;
   position: absolute;
-  right: 0.3rem;
+  right: 1rem;
   color:black;
-  top: 2.5rem;
+  top: 2.4rem;
+  grid-area:1/2/2/4;
+
   /* color:black; */
 }
-.chat__audio_time{
+
+.chat__audio_time_other{
   font-size: 0.65rem;
   position: absolute;
   color:black;
   top: 2.5rem;
-  left:16rem;
+  left:17.6rem;
+  grid-area:1/2/2/4;
 }
 .chat__time {
   font-size: 0.65rem;
@@ -231,18 +235,20 @@
   font-size: 20px;
   margin-right:10px;
 }
-@media screen and (max-width: 500px) {
+
+@media screen and (max-width: 760px){
   .main__chatcontent {
     background: none !important;
     flex: 1;
     border: none !important;
     width: 85%;
-    height:80%;
-    margin-top:1rem;
+    margin-top:0rem;
+    height:75% !important;
     margin-left: 30px;
     position: fixed;
   }
 }
+
 /* @media screen and (max-width: 736px) {
   .main__chatcontent {
     width: 95vw;

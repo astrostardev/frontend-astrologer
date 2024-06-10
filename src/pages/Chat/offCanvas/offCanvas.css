@@ -16,16 +16,19 @@
     display: none;
 }
 
-@media screen and (max-width: 500px) {
+@media screen and (max-width: 1024px) {
   #offCanvas_chat{
     display: block;
+  width: 88%;
+  height: 86%;
   }
-  .left_angle{
-    display: flex;
-    margin-top:30px;
-    font-size: 30px;
- /* margin-left:-250px; */
-
 }
-  }
-  
+
+@media screen and (max-width: 760px) {
+ .left_angle{
+  display: flex;
+  margin-top:30px;
+  font-size: 30px;
+/* margin-left:-250px; */
+}
+}

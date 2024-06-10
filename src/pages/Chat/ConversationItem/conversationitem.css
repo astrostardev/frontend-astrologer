@@ -6,14 +6,10 @@
     padding:10px;
     margin:3px 0;
     border-bottom: 1px solid rgba(190, 190, 190,0.3);
-
-
 }
 .conversation-container:hover{
     background-color: rgb(253, 250, 220);
     cursor: pointer;
-
-
 }
 
 .conversation-container p{
@@ -47,14 +43,13 @@
   
 }
 .con-timeStamp{
-
     justify-self: flex-end;
     font-size: 0.85rem;
     margin-top:5px;
     color:rgb(101, 101, 101) !important;
-
-
+    white-space: nowrap;
 }
+
 .con-lastMessage{
     font-size: 1rem !important;
     color:rgb(101, 101, 101);
