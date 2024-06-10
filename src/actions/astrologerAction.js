@@ -17,7 +17,7 @@ export const login = (mobileNo,token) => async (dispatch) => {
                 Authorization: `Bearer ${token}`
             }
         }
-        const response= await axios.get(`${process.env.REACT_APP_URL}/api/v1/astrologer/phoneNo?mobilePrimary=${mobileNo}`,config);
+        const response= await axios.get(`http://localhost:8001/api/v1/astrologer/phoneNo?mobilePrimary=${mobileNo}`,config);
     
 
         dispatch(loginSuccess(response.data))

@@ -31,35 +31,48 @@ function App(props) {
               <Route path="/" element={<AstrologerLogin />} />
               <Route
                 path="/dashboard"
-                element={isAuthenticated ? <Dashboard /> : <Navigate to="/" />}
+                element={
+                  isAuthenticated ? <Dashboard /> : <Navigate to="/" />
+                  // <Dashboard />
+                }
               />
               <Route
                 path="/earnings"
-                element={isAuthenticated ? <Earnings /> : <Navigate to="/" />}
+                element={
+                  isAuthenticated ? <Earnings /> : <Navigate to="/" />
+                  // <Earnings />
+                }
               />
               <Route
                 path="/settings"
-                element={isAuthenticated ? <Settings /> : <Navigate to="/" />}
+                element={
+                isAuthenticated ? <Settings /> : <Navigate to="/" />
+                // <Settings />
+                }
               />
               <Route
                 path="/chathistory"
                 element={
                   isAuthenticated ? <Chathistory /> : <Navigate to="/" />
+                  // <Chathistory />
                 }/>
               <Route
                 path="/full_chat_history/:id"
                 element={
                   isAuthenticated ? <FullChatHistory /> : <Navigate to="/" />
+                  // <FullChatHistory />
                 }/>
               <Route
                 path="/callhistory"
                 element={
                   isAuthenticated ? <Callhistory /> : <Navigate to="/" />
+                  // <Callhistory />
                 }
               />
               <Route
                 path="/astroProfile"
                 element={
+                  // <ViewAstroProfile />
                   isAuthenticated ? <ViewAstroProfile /> : <Navigate to="/" />
                 }
               />
@@ -68,16 +81,19 @@ function App(props) {
                 path="/chats"
                 
                 element={isAuthenticated ? <ChatBody/> : <Navigate to="/" />}
+                // element={<ChatBody />}
               >
                 <Route
                   path="chat_content/:id"
                   element={
+                    // <ChatContent />
                     isAuthenticated ? <ChatContent /> : <Navigate to="/" />
                   }
                 />
                 <Route
                   path="welcome"
                   element={isAuthenticated ? <Welcome /> : <Navigate to="/" />}
+                  // element={<Welcome />}
                 />
               </Route>
             </Routes>

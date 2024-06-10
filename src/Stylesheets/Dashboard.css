@@ -89,7 +89,7 @@
     flex-wrap: wrap;
 }
 
-@media screen and (max-width: 500px) {
+@media screen and (max-width: 1024px) {
     .barChart {
         padding: 10px !important;
     }

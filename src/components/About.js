@@ -7,7 +7,6 @@ import Slider from "react-slick";
 import TopAstro from "./top";
 import { Link } from "react-router-dom";
 
-
 function About() {
 
     const settings = {
