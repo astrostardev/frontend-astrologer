@@ -1,6 +1,6 @@
 import React from "react";
 import "./welcome.css";
-import logo from "../../../assests/chatImage.jpg";
+import logo from "../../../assests/benefits-astro.png";
 import { AnimatePresence } from "framer-motion";
 import { motion } from "framer-motion";
 function Welcome() {
@@ -25,7 +25,7 @@ function Welcome() {
   // <img src={logo} alt="" className="welcome-logo" />
   //   <p>View and text directly to astrologers present in the chat rooms</p>
 
-  // </div>h
+  // </div>
   );
 }
 

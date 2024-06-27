@@ -68,7 +68,7 @@
   /* Important for vertical align on mobile phones */
 }
 
-@media screen and (max-width: 500px) {
+@media screen and (max-width: 1024px) {
   .profileDrop > .dropbtn {
     padding-right: 0px;
   }
